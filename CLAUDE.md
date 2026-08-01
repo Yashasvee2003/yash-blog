@@ -240,6 +240,24 @@ Yashasvee about who he is and what the blog is for. Cannot be invented on his be
 subscriber is tied to it. Settling this also unblocks OG images, which are otherwise done
 twice. Cloudflare Registrar sells at cost (~$10/yr).
 
+### 0. Yashasvee to verify the Kubernetes post
+
+`platform-eng/Nobody in Kubernetes talks to anybody else` is live and needs a technical
+read-through by someone who knows the material. It was written from the ten `k8s-core` notes,
+and two pieces of reasoning were added that the notes implied but did not state: why funnelling
+everything through the API server is worth the bottleneck, and why creating pods and placing
+pods are deliberately separate processes. Both need confirming or cutting.
+
+Also worth a voice pass — it was written without any samples of Yashasvee's own writing, so the
+register is a guess.
+
+**Attribution:** all ten diagrams are Bibin Wilson's, from
+[DevOpsCube](https://devopscube.com/kubernetes-architecture-explained/), credited in a Sources
+section at the bottom of the post. **Redrawing them is the better long-term answer** — it settles
+the copyright question properly, allows a dark-mode-aware SVG, and is the one differentiator the
+blog research identified as actually available in this field. Applies to every vault image, not
+just this post: a pasted image in a study vault is frequently someone else's work.
+
 ### 1. Mine the notes for post ideas
 
 Read through the vaults and pick out which notes have a real post inside them, rather than
