@@ -180,6 +180,22 @@ is editorial rather than technical.
 - Sync pipeline handles every Obsidian convention found in the vaults: 83 images resolved,
   27 wikilinks, LaTeX via KaTeX. Only Excalidraw needs manual PNG export.
 - Design pass 1 complete (ToC, heading permalinks, prev/next, reading time, dark mode toggle).
+- Design pass 2 complete (page width, listing layout, post descriptions, footer links).
+
+### Two widths, not one
+
+`--measure` (68ch) is the reading column; `--page` (66rem) is everything else. Prose stays
+narrow deliberately — long lines are harder to read, so widening it would make the writing
+worse. Header, footer, and listings use `--page`, because a list of titles and dates has no
+reading measure to respect. When adding a component, decide which of the two it belongs to
+rather than inventing a third width.
+
+### Descriptions
+
+`description` in a note's frontmatter is what shows under the title on every listing and in
+the RSS feed. Write one when publishing. `deriveDescription()` in the sync script is only a
+floor: it skips fragments under 60 characters, list markers, fenced code, and bare URLs, and
+returns nothing rather than something bad — an empty description beats "client".
 
 **Next session should probably start with TODO 1** — the technical work has outrun the
 content, and 4 posts is thin. Deciding *what to write* is now the bottleneck, not tooling.
@@ -244,30 +260,14 @@ The theme started deliberately minimal so content could ship. First pass of impr
 
 Still open:
 
-- **Use more of the page width.** On a wide screen the layout currently occupies roughly the
-  middle half and leaves large empty margins (observed 2026-08-01 on the home page).
+- **Diagrams, tables, and code could break out wider than the prose.** The width split below
+  is done, but content inside the article is still capped at `--measure`. Screenshots in these
+  notes are often ~800px and get downscaled into a ~640px column. Breaking them out needs care
+  on post pages, where the ToC occupies the right margin.
 
-  The tension to resolve: the *reading column* should stay near `--measure` (68ch) — long
-  lines are genuinely harder to read, so that part is a deliberate typographic choice, not an
-  oversight. What can legitimately use the extra space:
-
-  - The header and footer, currently pinned to the same narrow column as the prose.
-  - The home and topic listings, which are lists of short items and don't need a reading
-    measure at all — two columns, or title/date/description laid out horizontally.
-  - Diagrams, tables, and code blocks, which could break out wider than the text around them.
-  - The ToC, which already moves into the margin at ≥1080px — the same idea applied further.
-
-  Worth deciding whether the site keeps one global `.wrap` width or moves to a "narrow prose,
-  wide furniture" model. The `layout-wide` body class added for the ToC is the seam to build on.
-
-- **Link out to socials** — GitHub, LinkedIn, Twitter/X. Footer is the natural home, possibly
-  also `about.astro`. Needs the actual handles; none are recorded anywhere in the repo yet.
-
-- **Post descriptions are weak.** The sync script falls back to the first real paragraph when
-  a note has no `description`, which currently yields "Replication", "client", and
-  "1. filter vs kernel" on the home page — visible in the same screenshot. These are the
-  first thing a reader sees. Either write real `description` frontmatter per note as part of
-  publishing, or make the fallback smarter about skipping fragment-length openers.
+- **Socials: GitHub is linked in the footer; LinkedIn and Twitter are stubbed.** Add handles to
+  the `socials` array in `BaseLayout.astro` — entries with an empty `href` are filtered out, so
+  it degrades cleanly until then.
 
 - No related posts.
 - No syntax-highlighting stress test — the notes are light on code blocks, so Shiki's output
