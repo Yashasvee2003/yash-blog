@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import ThemeToggle from '../components/ThemeToggle.astro';
+import SocialLinks from '../components/SocialLinks.astro';
 
 interface Props {
   title: string;
@@ -11,12 +12,14 @@ interface Props {
 
 const { title, description = '', ogType = 'website' } = Astro.props;
 
-// Entries with an empty href are skipped, so a link can be staged here before
-// the handle is settled.
+// Rendered as icons in the header. Adding one here needs a matching path in
+// SocialLinks.astro, keyed by `label`. Entries with an empty href are skipped,
+// so a link can be staged before the handle is settled.
 const socials = [
   { href: 'https://github.com/Yashasvee2003', label: 'GitHub' },
   { href: 'https://www.linkedin.com/in/yashasvee-vijaykumar-706a84225/', label: 'LinkedIn' },
   { href: 'https://leetcode.com/u/cooldude4539/', label: 'LeetCode' },
+  { href: '/rss.xml', label: 'RSS' },
 ].filter((s) => s.href);
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const pathname = Astro.url.pathname;
@@ -80,8 +83,9 @@ const isCurrent = (href: string) =>
               </a>
             ))
           }
-          <ThemeToggle />
         </nav>
+        <SocialLinks links={socials} />
+        <ThemeToggle />
       </div>
     </header>
 
@@ -92,14 +96,7 @@ const isCurrent = (href: string) =>
     <footer class="site-footer">
       <div class="wrap">
         <span>Notes on systems, infrastructure, and machine learning.</span>
-        <nav class="footer-links" aria-label="Elsewhere">
-          {
-            socials.map((s) => (
-              <a href={s.href} rel="me noopener" target="_blank">
-                {s.label}
-              </a>
-            ))
-          }
+        <nav class="footer-links" aria-label="Feeds">
           <a href="/rss.xml">RSS</a>
         </nav>
       </div>

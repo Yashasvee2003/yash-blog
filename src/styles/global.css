@@ -143,6 +143,48 @@ a {
   color: var(--text);
 }
 
+/* ---------- social icons ---------- */
+
+.social-links {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  /* Separated from the nav so brand marks don't read as another nav item. */
+  padding-left: 1.25rem;
+  margin-left: 0.25rem;
+  border-left: 1px solid var(--border);
+}
+
+.social-links a {
+  display: inline-flex;
+  color: var(--muted);
+  line-height: 0;
+}
+
+.social-links a:hover {
+  color: var(--text);
+}
+
+.social-links a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+.social-links svg {
+  width: 1.05rem;
+  height: 1.05rem;
+}
+
+/* On narrow screens the header wraps; the divider then reads as a stray rule. */
+@media (max-width: 34rem) {
+  .social-links {
+    padding-left: 0;
+    margin-left: 0;
+    border-left: none;
+  }
+}
+
 .site-footer {
   margin-top: 5rem;
   padding-block: 2rem;

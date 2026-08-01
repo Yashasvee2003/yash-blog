@@ -213,6 +213,21 @@ will drift.
 
 Roughly in priority order. Nothing here is urgent — the pipeline works and the site is live.
 
+### ⚠ IMPORTANT — raise this whenever TODOs are reviewed
+
+**Set up a dedicated blog email and put it in the footer.** Currently there is no way for a
+reader to make contact, which forfeits most of what a blog is practically good for — someone
+reads a post and wants to ask a question, offer work, or correct you.
+
+Explicitly **do not use the personal address** (`yashasvee2k3@gmail.com`). It is attached to
+banking, GitHub, and everything else; once published it is scraped and cannot be unpublished.
+Create something like `yashasvee.blog@gmail.com`, forward it to the main inbox, and use that —
+it can be abandoned if it ever drowns in spam. Avoid `+blog` style aliases; scrapers strip them.
+
+Precedent: Marc Brooker publishes a plain Gmail address in his blog footer.
+
+Once the address exists this is a one-line change in `BaseLayout.astro`.
+
 ### 1. Mine the notes for post ideas
 
 Read through the vaults and pick out which notes have a real post inside them, rather than
@@ -332,9 +347,9 @@ Still open:
   notes are often ~800px and get downscaled into a ~640px column. Breaking them out needs care
   on post pages, where the ToC occupies the right margin.
 
-- **Socials: GitHub is linked in the footer; LinkedIn and Twitter are stubbed.** Add handles to
-  the `socials` array in `BaseLayout.astro` — entries with an empty `href` are filtered out, so
-  it degrades cleanly until then.
+- Socials (GitHub, LinkedIn, LeetCode, RSS) render as icons in the header. Adding one means an
+  entry in the `socials` array in `BaseLayout.astro` **and** a matching SVG path in
+  `SocialLinks.astro`, keyed by the same `label` — a label with no path renders an empty icon.
 
 - No related posts.
 - No syntax-highlighting stress test — the notes are light on code blocks, so Shiki's output
