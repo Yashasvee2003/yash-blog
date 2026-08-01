@@ -223,6 +223,12 @@ length distribution, how series are structured, whether they use a newsletter.
 Reference points in this space: Dan Luu, Julia Evans, Brendan Gregg, Marc Brooker, Aphyr,
 Fly.io's blog, Cloudflare's engineering blog.
 
+**Inspiration, not imitation.** The goal is to work out *why* a choice works — why a given
+blog's landing page makes you want to read something, why its diagrams land — and then apply
+the reasoning here. Lifting a layout wholesale gets a site that looks like someone else's and
+fits this content badly. Write the extracted principles into this file so they survive the
+session.
+
 ### 3. Improve the design
 
 The theme started deliberately minimal so content could ship. First pass of improvements is
@@ -237,6 +243,31 @@ The theme started deliberately minimal so content could ship. First pass of impr
   inflate the estimate.
 
 Still open:
+
+- **Use more of the page width.** On a wide screen the layout currently occupies roughly the
+  middle half and leaves large empty margins (observed 2026-08-01 on the home page).
+
+  The tension to resolve: the *reading column* should stay near `--measure` (68ch) — long
+  lines are genuinely harder to read, so that part is a deliberate typographic choice, not an
+  oversight. What can legitimately use the extra space:
+
+  - The header and footer, currently pinned to the same narrow column as the prose.
+  - The home and topic listings, which are lists of short items and don't need a reading
+    measure at all — two columns, or title/date/description laid out horizontally.
+  - Diagrams, tables, and code blocks, which could break out wider than the text around them.
+  - The ToC, which already moves into the margin at ≥1080px — the same idea applied further.
+
+  Worth deciding whether the site keeps one global `.wrap` width or moves to a "narrow prose,
+  wide furniture" model. The `layout-wide` body class added for the ToC is the seam to build on.
+
+- **Link out to socials** — GitHub, LinkedIn, Twitter/X. Footer is the natural home, possibly
+  also `about.astro`. Needs the actual handles; none are recorded anywhere in the repo yet.
+
+- **Post descriptions are weak.** The sync script falls back to the first real paragraph when
+  a note has no `description`, which currently yields "Replication", "client", and
+  "1. filter vs kernel" on the home page — visible in the same screenshot. These are the
+  first thing a reader sees. Either write real `description` frontmatter per note as part of
+  publishing, or make the fallback smarter about skipping fragment-length openers.
 
 - No related posts.
 - No syntax-highlighting stress test — the notes are light on code blocks, so Shiki's output
