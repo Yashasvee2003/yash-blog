@@ -1,0 +1,30 @@
+---
+import type { MarkdownHeading } from 'astro';
+
+interface Props {
+  headings: MarkdownHeading[];
+}
+
+// h1 is excluded: the layout renders the post title, so a note's own h1 would
+// duplicate it. h4 and deeper are too granular to be useful in a sidebar.
+const items = Astro.props.headings.filter((h) => h.depth === 2 || h.depth === 3);
+
+// A two-entry contents list is noise, not navigation.
+const show = items.length >= 3;
+const minDepth = items.length ? Math.min(...items.map((h) => h.depth)) : 2;
+---
+
+{
+  show && (
+    <nav class="toc" aria-labelledby="toc-heading">
+      <h2 class="toc-title" id="toc-heading">Contents</h2>
+      <ul>
+        {items.map((h) => (
+          <li class={h.depth > minDepth ? 'toc-sub' : undefined}>
+            <a href={`#${h.slug}`}>{h.text}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )
+}

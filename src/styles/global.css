@@ -176,6 +176,137 @@ a {
   font-variant-numeric: tabular-nums;
 }
 
+/* ---------- post layout + table of contents ---------- */
+
+/* Only post pages widen, and only far enough to seat the ToC beside the text.
+   The reading column itself never grows past --measure. */
+.layout-wide .wrap {
+  max-width: calc(var(--measure) + 16rem);
+}
+
+.post-layout > article {
+  max-width: var(--measure);
+  min-width: 0;
+}
+
+.toc {
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
+.toc-title {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--muted);
+  margin: 0 0 0.6rem;
+}
+
+.toc ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-left: 1px solid var(--border);
+}
+
+.toc li {
+  margin: 0;
+}
+
+.toc a {
+  display: block;
+  padding: 0.28rem 0 0.28rem 0.8rem;
+  margin-left: -1px;
+  border-left: 1px solid transparent;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.toc a:hover {
+  color: var(--text);
+  border-left-color: var(--accent);
+}
+
+.toc-sub a {
+  padding-left: 1.6rem;
+  font-size: 0.95em;
+}
+
+/* Below the breakpoint the ToC sits inline above the article, in source order. */
+.post-aside {
+  order: -1;
+  margin-bottom: 2.5rem;
+}
+
+@media (min-width: 1080px) {
+  .post-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 13rem;
+    gap: 3.5rem;
+    align-items: start;
+  }
+
+  .post-aside {
+    order: 0;
+    position: sticky;
+    top: 2rem;
+    margin-bottom: 0;
+    /* Long contents lists scroll internally rather than running off-screen. */
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+  }
+}
+
+/* ---------- prev / next ---------- */
+
+.post-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 4rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.post-nav-link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  text-decoration: none;
+  color: var(--text);
+}
+
+.post-nav-next {
+  text-align: right;
+}
+
+.post-nav-dir {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--muted);
+}
+
+.post-nav-title {
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.post-nav-link:hover .post-nav-title {
+  color: var(--accent);
+}
+
+@media (max-width: 34rem) {
+  .post-nav {
+    grid-template-columns: 1fr;
+  }
+  .post-nav-next {
+    text-align: left;
+  }
+}
+
 /* ---------- article ---------- */
 
 .post-header {
@@ -201,6 +332,27 @@ a {
   line-height: 1.25;
   margin: 2.5rem 0 0.75rem;
   scroll-margin-top: 2rem;
+}
+
+/* Permalink affordance: hidden until the heading is hovered, but always exposed
+   to keyboard focus so it is reachable without a pointer. */
+.prose .heading-anchor {
+  margin-left: 0.4em;
+  color: var(--muted);
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity 0.12s ease-in-out;
+}
+
+.prose .heading-linked:hover .heading-anchor,
+.prose .heading-anchor:focus-visible {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .prose .heading-anchor {
+    display: none;
+  }
 }
 
 .prose h1 { font-size: 1.7rem; }
