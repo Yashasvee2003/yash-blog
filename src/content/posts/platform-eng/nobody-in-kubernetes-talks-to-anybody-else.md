@@ -13,41 +13,39 @@ source: platform-eng/Nobody in Kubernetes talks to anybody else.md
 Every explanation of Kubernetes architecture opens with the same picture. Ten boxes. Control plane on the left, worker nodes on the right, arrows in between. I stared at that diagram for a long time before any of it stuck, and I've come to think the diagram is part of the problem.
 
 <figure class="diagram">
-<svg viewBox="0 0 700 450" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Five Kubernetes components each connected only to the API server, which alone connects to etcd">
+<svg viewBox="0 0 700 430" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Five Kubernetes components each connected only to the API server, which alone connects to etcd">
 <defs>
 <marker id="wh-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="arrowhead"/></marker>
 <marker id="wh-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="arrowhead-accent"/></marker>
 </defs>
-<rect x="270" y="188" width="164" height="66" rx="6" class="box-accent"/>
-<text x="352" y="214" text-anchor="middle" class="t-strong t-accent">API server</text>
-<text x="352" y="234" text-anchor="middle" class="t-sm">the only door</text>
-<rect x="556" y="196" width="116" height="52" rx="6" class="box"/>
-<text x="614" y="227" text-anchor="middle">etcd</text>
-<rect x="40" y="30" width="130" height="46" rx="6" class="box"/>
-<text x="105" y="58" text-anchor="middle">kubectl</text>
-<rect x="272" y="30" width="200" height="46" rx="6" class="box"/>
-<text x="372" y="58" text-anchor="middle">controller manager</text>
-<rect x="552" y="30" width="124" height="46" rx="6" class="box"/>
-<text x="614" y="58" text-anchor="middle">scheduler</text>
-<rect x="272" y="372" width="150" height="46" rx="6" class="box"/>
-<text x="347" y="400" text-anchor="middle">kubelet</text>
-<rect x="30" y="372" width="196" height="46" rx="6" class="box"/>
-<text x="128" y="400" text-anchor="middle">cloud controller mgr</text>
-<line x1="150" y1="78" x2="285" y2="184" class="arrow arrow-dash" marker-end="url(#wh-a)"/>
-<line x1="368" y1="78" x2="356" y2="184" class="arrow arrow-dash" marker-end="url(#wh-a)"/>
-<line x1="590" y1="78" x2="428" y2="184" class="arrow arrow-dash" marker-end="url(#wh-a)"/>
-<line x1="340" y1="368" x2="348" y2="258" class="arrow arrow-dash" marker-end="url(#wh-a)"/>
-<line x1="160" y1="368" x2="282" y2="258" class="arrow arrow-dash" marker-end="url(#wh-a)"/>
-<line x1="438" y1="221" x2="550" y2="221" class="arrow arrow-accent" marker-end="url(#wh-b)" marker-start="url(#wh-b)"/>
-<text x="494" y="210" text-anchor="middle" class="t-sm">reads</text>
-<text x="494" y="243" text-anchor="middle" class="t-sm">writes</text>
-<text x="222" y="140" text-anchor="middle" class="t-sm">watch</text>
-<text x="386" y="150" text-anchor="middle" class="t-sm">watch</text>
-<text x="512" y="140" text-anchor="middle" class="t-sm">watch</text>
-<text x="300" y="318" text-anchor="middle" class="t-sm">watch</text>
-<text x="196" y="312" text-anchor="middle" class="t-sm">watch</text>
-<line x1="30" y1="286" x2="240" y2="286" class="rule"/>
-<text x="30" y="306" class="t-sm">No dashed line connects two components to each other.</text>
+<rect x="268" y="176" width="164" height="66" rx="6" class="box-accent"/>
+<text x="350" y="202" text-anchor="middle" class="t-strong t-accent">API server</text>
+<text x="350" y="222" text-anchor="middle" class="t-sm">the only door</text>
+<rect x="552" y="184" width="120" height="52" rx="6" class="box"/>
+<text x="612" y="215" text-anchor="middle">etcd</text>
+<line x1="438" y1="210" x2="546" y2="210" class="arrow arrow-accent" marker-end="url(#wh-b)" marker-start="url(#wh-b)"/>
+<text x="492" y="198" text-anchor="middle" class="t-sm">reads and writes</text>
+<rect x="28" y="34" width="140" height="46" rx="6" class="box"/>
+<text x="98" y="62" text-anchor="middle">kubectl</text>
+<rect x="280" y="34" width="200" height="46" rx="6" class="box"/>
+<text x="380" y="62" text-anchor="middle">controller manager</text>
+<rect x="546" y="34" width="126" height="46" rx="6" class="box"/>
+<text x="609" y="62" text-anchor="middle">scheduler</text>
+<rect x="28" y="330" width="212" height="46" rx="6" class="box"/>
+<text x="134" y="358" text-anchor="middle">cloud controller mgr</text>
+<rect x="300" y="330" width="160" height="46" rx="6" class="box"/>
+<text x="380" y="358" text-anchor="middle">kubelet</text>
+<line x1="120" y1="84" x2="288" y2="172" class="arrow arrow-dash" marker-end="url(#wh-a)"/>
+<line x1="368" y1="84" x2="352" y2="172" class="arrow arrow-dash" marker-end="url(#wh-a)"/>
+<line x1="582" y1="84" x2="416" y2="172" class="arrow arrow-dash" marker-end="url(#wh-a)"/>
+<line x1="160" y1="326" x2="288" y2="246" class="arrow arrow-dash" marker-end="url(#wh-a)"/>
+<line x1="374" y1="326" x2="358" y2="246" class="arrow arrow-dash" marker-end="url(#wh-a)"/>
+<rect x="28" y="180" width="176" height="58" rx="6" class="box-ghost"/>
+<line x1="44" y1="200" x2="76" y2="200" class="arrow arrow-dash"/>
+<text x="86" y="204" class="t-sm">a watch connection</text>
+<line x1="44" y1="222" x2="76" y2="222" class="arrow arrow-accent"/>
+<text x="86" y="226" class="t-sm">the only etcd traffic</text>
+<text x="350" y="410" text-anchor="middle" class="t-sm">Not one dashed line connects two components to each other.</text>
 </svg>
 <figcaption>Every component watches the API server. Only the API server touches etcd.</figcaption>
 </figure>
@@ -148,7 +146,8 @@ You could imagine a design where every component read from the datastore directl
 <text x="623" y="209" text-anchor="middle" class="t-sm">defragmentation</text>
 <text x="623" y="225" text-anchor="middle" class="t-sm">reclaims the file</text>
 <line x1="554" y1="212" x2="564" y2="212" class="arrow" marker-end="url(#et-a)"/>
-<text x="440" y="256" class="t-sm">One frees revisions; the other frees the space they left behind.</text>
+<text x="440" y="256" class="t-sm">One frees revisions, the other</text>
+<text x="440" y="274" class="t-sm">frees the space they left behind.</text>
 </svg>
 <figcaption>A write is committed once a majority acknowledges it. Old revisions pile up until something removes them.</figcaption>
 </figure>
@@ -357,7 +356,7 @@ The scheduler's entire job is to fill in one field.
 <text x="580" y="94" text-anchor="middle">container</text>
 <text x="580" y="116" text-anchor="middle" class="t-sm">finally running</text>
 <line x1="450" y1="86" x2="484" y2="96" class="arrow" marker-end="url(#kl-a)"/>
-<text x="490" y="178" class="t-sm t-strong">then supervision, forever</text>
+<text x="490" y="176" class="t-sm t-strong">then supervision, forever</text>
 <rect x="490" y="192" width="180" height="36" rx="5" class="box"/>
 <text x="504" y="215" class="t-sm">liveness — restart it?</text>
 <rect x="490" y="236" width="180" height="36" rx="5" class="box"/>
@@ -365,7 +364,7 @@ The scheduler's entire job is to fill in one field.
 <rect x="490" y="280" width="180" height="46" rx="5" class="box"/>
 <text x="504" y="298" class="t-sm">node metrics from the OS,</text>
 <text x="504" y="314" class="t-sm">container metrics via cAdvisor</text>
-<line x1="580" y1="146" x2="580" y2="188" class="arrow arrow-dash" marker-end="url(#kl-a)"/>
+<line x1="676" y1="146" x2="676" y2="186" class="arrow arrow-dash" marker-end="url(#kl-a)"/>
 </svg>
 <figcaption>The kubelet builds everything around the container before it starts, then never stops watching it.</figcaption>
 </figure>
@@ -425,7 +424,7 @@ Two things fix that.
 <text x="382" y="258" class="t-sm">Skips kube-proxy and hits pod IPs itself.</text>
 <text x="382" y="278" class="t-sm">Stickiness, retries and traffic splitting</text>
 <text x="382" y="296" class="t-sm">live here. iptables cannot express them.</text>
-<line x1="483" y1="96" x2="483" y2="206" class="arrow arrow-accent arrow-dash" marker-end="url(#sr-b)"/>
+<line x1="651" y1="206" x2="651" y2="98" class="arrow arrow-accent arrow-dash" marker-end="url(#sr-b)"/>
 </svg>
 <figcaption>A name becomes a service IP, a service IP becomes a pod IP — and two common setups skip the second step entirely.</figcaption>
 </figure>
@@ -464,8 +463,7 @@ I said there was an exception to everything-only-talks-to-the-API-server, and th
 <text x="598" y="82" text-anchor="middle">your cloud</text>
 <text x="598" y="104" text-anchor="middle" class="t-sm">EC2, ELB, IAM</text>
 <line x1="456" y1="94" x2="504" y2="94" class="arrow arrow-accent" marker-end="url(#cc-b)"/>
-<text x="480" y="82" text-anchor="middle" class="t-sm t-accent">the one</text>
-<text x="480" y="132" text-anchor="middle" class="t-sm t-accent">outward call</text>
+<text x="598" y="158" text-anchor="middle" class="t-sm t-accent">the one outward call</text>
 <line x1="14" y1="196" x2="686" y2="196" class="rule"/>
 <text x="14" y="222" class="t-sm t-strong">and the thing that is conspicuously not here</text>
 <rect x="14" y="234" width="150" height="34" rx="5" class="box"/>
@@ -489,44 +487,47 @@ Storage is the interesting omission. You'd expect volume provisioning here, and 
 ## What the diagram should have shown
 
 <figure class="diagram">
-<svg viewBox="0 0 700 470" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The sequence from kubectl apply to a running container, every step passing back through the API server">
+<svg viewBox="0 0 700 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The sequence from kubectl apply to a running container, every step passing back through the API server">
 <defs>
 <marker id="tr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="arrowhead"/></marker>
 </defs>
-<line x1="350" y1="34" x2="350" y2="446" class="rule"/>
-<rect x="266" y="10" width="168" height="34" rx="6" class="box-accent"/>
-<text x="350" y="32" text-anchor="middle" class="t-strong t-accent">API server</text>
-<rect x="20" y="70" width="176" height="42" rx="6" class="box"/>
-<text x="108" y="88" text-anchor="middle" class="t-sm">1. you</text>
-<text x="108" y="104" text-anchor="middle" class="t-mono">kubectl apply</text>
-<line x1="200" y1="91" x2="262" y2="91" class="arrow" marker-end="url(#tr-a)"/>
-<text x="480" y="86" class="t-sm">Deployment object written to etcd</text>
-<rect x="20" y="140" width="176" height="42" rx="6" class="box"/>
-<text x="108" y="158" text-anchor="middle" class="t-sm">2. deployment controller</text>
-<text x="108" y="174" text-anchor="middle" class="t-sm">sees ADDED</text>
-<line x1="262" y1="161" x2="200" y2="161" class="arrow arrow-dash" marker-end="url(#tr-a)"/>
-<line x1="200" y1="178" x2="262" y2="178" class="arrow" marker-end="url(#tr-a)"/>
-<text x="480" y="168" class="t-sm">pods created, with no node assigned</text>
-<rect x="20" y="212" width="176" height="42" rx="6" class="box"/>
-<text x="108" y="230" text-anchor="middle" class="t-sm">3. scheduler</text>
-<text x="108" y="246" text-anchor="middle" class="t-sm">sees unscheduled pod</text>
-<line x1="262" y1="233" x2="200" y2="233" class="arrow arrow-dash" marker-end="url(#tr-a)"/>
-<line x1="200" y1="250" x2="262" y2="250" class="arrow" marker-end="url(#tr-a)"/>
-<text x="480" y="240" class="t-sm">writes one field: nodeName</text>
-<rect x="20" y="284" width="176" height="42" rx="6" class="box"/>
-<text x="108" y="302" text-anchor="middle" class="t-sm">4. kubelet on that node</text>
-<text x="108" y="318" text-anchor="middle" class="t-sm">sees pod bound to it</text>
-<line x1="262" y1="305" x2="200" y2="305" class="arrow arrow-dash" marker-end="url(#tr-a)"/>
-<line x1="200" y1="322" x2="262" y2="322" class="arrow" marker-end="url(#tr-a)"/>
-<text x="480" y="312" class="t-sm">status reported back</text>
-<rect x="440" y="352" width="230" height="46" rx="6" class="box"/>
-<text x="555" y="380" text-anchor="middle">container running</text>
-<line x1="350" y1="330" x2="350" y2="375" class="arrow" marker-end="url(#tr-a)"/>
-<line x1="356" y1="375" x2="434" y2="375" class="arrow" marker-end="url(#tr-a)"/>
-<text x="20" y="378" class="t-sm">dashed = watch event arriving</text>
-<text x="20" y="396" class="t-sm">solid  = a write, back through the API server</text>
-<text x="20" y="440" class="t-sm t-strong">Each component's output is the next one's input.</text>
-<text x="20" y="458" class="t-sm">None of them called each other.</text>
+<line x1="330" y1="52" x2="330" y2="392" class="rule"/>
+<rect x="246" y="14" width="168" height="38" rx="6" class="box-accent"/>
+<text x="330" y="39" text-anchor="middle" class="t-strong t-accent">API server</text>
+<rect x="20" y="76" width="190" height="42" rx="6" class="box"/>
+<text x="115" y="94" text-anchor="middle" class="t-sm">1. you</text>
+<text x="115" y="110" text-anchor="middle" class="t-mono">kubectl apply</text>
+<line x1="214" y1="97" x2="326" y2="97" class="arrow" marker-end="url(#tr-a)"/>
+<text x="346" y="93" class="t-sm">Deployment written to etcd</text>
+<rect x="20" y="148" width="190" height="42" rx="6" class="box"/>
+<text x="115" y="166" text-anchor="middle" class="t-sm">2. deployment controller</text>
+<text x="115" y="182" text-anchor="middle" class="t-sm">sees ADDED</text>
+<line x1="326" y1="160" x2="214" y2="160" class="arrow arrow-dash" marker-end="url(#tr-a)"/>
+<line x1="214" y1="182" x2="326" y2="182" class="arrow" marker-end="url(#tr-a)"/>
+<text x="346" y="176" class="t-sm">pods created, no node assigned</text>
+<rect x="20" y="220" width="190" height="42" rx="6" class="box"/>
+<text x="115" y="238" text-anchor="middle" class="t-sm">3. scheduler</text>
+<text x="115" y="254" text-anchor="middle" class="t-sm">sees an unscheduled pod</text>
+<line x1="326" y1="232" x2="214" y2="232" class="arrow arrow-dash" marker-end="url(#tr-a)"/>
+<line x1="214" y1="254" x2="326" y2="254" class="arrow" marker-end="url(#tr-a)"/>
+<text x="346" y="248" class="t-sm">one field written: nodeName</text>
+<rect x="20" y="292" width="190" height="42" rx="6" class="box"/>
+<text x="115" y="310" text-anchor="middle" class="t-sm">4. kubelet on that node</text>
+<text x="115" y="326" text-anchor="middle" class="t-sm">sees the pod bound to it</text>
+<line x1="326" y1="304" x2="214" y2="304" class="arrow arrow-dash" marker-end="url(#tr-a)"/>
+<line x1="214" y1="326" x2="326" y2="326" class="arrow" marker-end="url(#tr-a)"/>
+<text x="346" y="320" class="t-sm">status reported back</text>
+<line x1="330" y1="392" x2="330" y2="412" class="arrow" marker-end="url(#tr-a)"/>
+<rect x="240" y="416" width="220" height="42" rx="6" class="box"/>
+<text x="350" y="443" text-anchor="middle">container running</text>
+<rect x="500" y="366" width="186" height="92" rx="6" class="box-ghost"/>
+<line x1="516" y1="392" x2="548" y2="392" class="arrow arrow-dash"/>
+<text x="558" y="396" class="t-sm">a watch event</text>
+<line x1="516" y1="418" x2="548" y2="418" class="arrow"/>
+<text x="558" y="422" class="t-sm">a write, via the</text>
+<text x="558" y="440" class="t-sm">API server</text>
+<text x="20" y="380" class="t-sm t-strong">Each component's output is the next one's input.</text>
+<text x="20" y="400" class="t-sm">None of them called each other.</text>
 </svg>
 <figcaption>The whole sequence. Every arrow starts or ends at the API server.</figcaption>
 </figure>
@@ -543,15 +544,12 @@ The component you need is whichever one owns the field that isn't getting filled
 
 ## Sources
 
-I learned this material largely from **Bibin Wilson's** writing — his
-[Kubernetes Architecture](https://blog.techiescamp.com/docs/kubernetes-architecture/) piece on
-the [TechiesCamp blog](https://blog.techiescamp.com/author/bibin/) has the clearest illustrated
-breakdown of these components I've found, and it's worth your time if you want more depth on any
-one of them.
+- Bibin Wilson — [Kubernetes Architecture](https://blog.techiescamp.com/docs/kubernetes-architecture/), [TechiesCamp](https://blog.techiescamp.com/author/bibin/)
+- [Kubernetes Components](https://kubernetes.io/docs/concepts/overview/components/)
+- [kube-apiserver](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/) · [etcd](https://kubernetes.io/docs/tasks/administer-cluster/configure-upgrade-etcd/) · [controllers](https://kubernetes.io/docs/concepts/architecture/controller/)
+- [kube-scheduler](https://kubernetes.io/docs/concepts/scheduling-eviction/kube-scheduler/) · [scheduler configuration](https://kubernetes.io/docs/reference/scheduling/config/)
+- [kubelet](https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/) · [static pods](https://kubernetes.io/docs/tasks/configure-pod-container/static-pod/)
+- [Service](https://kubernetes.io/docs/concepts/services-networking/service/) · [DNS for services](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/) · [cloud controller manager](https://kubernetes.io/docs/concepts/architecture/cloud-controller/)
 
-The diagrams in this post are my own, drawn for the trace this post follows rather than as a
-component reference. They're plain SVG and they follow the site's theme, so they should be
-readable in dark mode — something screenshots never manage.
-
-Any errors here are mine.
+Diagrams are my own.
 
