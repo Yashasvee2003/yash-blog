@@ -8,6 +8,7 @@ category: platform-eng
 tags: []
 draft: false
 source: platform-eng/Nobody in Kubernetes talks to anybody else.md
+updated: '2026-08-01'
 ---
 
 Every explanation of Kubernetes architecture opens with the same picture. Ten boxes. Control plane on the left, worker nodes on the right, arrows in between. I stared at that diagram for a long time before any of it stuck, and I've come to think the diagram is part of the problem.

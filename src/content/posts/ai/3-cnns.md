@@ -3,11 +3,12 @@ title: 3- CNNs
 description: >-
   Why flattening an image for a dense network throws away spatial structure, and
   how filters, convolution, and pooling recover it.
-date: '2026-04-16'
+date: '2026-08-01'
 category: ai
 tags: []
 draft: false
 source: ai/3- CNNs.md
+updated: '2026-08-01'
 ---
 
 - Used in various image related tasks 

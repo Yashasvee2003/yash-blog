@@ -285,6 +285,36 @@ the copyright question properly, allows a dark-mode-aware SVG, and is the one di
 blog research identified as actually available in this field. Applies to every vault image, not
 just this post: a pasted image in a study vault is frequently someone else's work.
 
+### 0b. Yashasvee to verify the Network Programming post
+
+Rewritten 2026-08-01 from the bullet notes into prose, with four original diagrams.
+
+**Claims added beyond the notes** — confirm or cut:
+
+1. **`listen()` returns immediately** and the backlog is the queue depth before the kernel
+   refuses connections. Notes only say it "takes backlog as arg".
+2. **"Address already in use" is a key collision**, and two sockets can share a port when the
+   rest of the tuple differs. Extrapolated from the notes' hash-table point.
+3. **`send()` partial writes** — I generalised to "the return can be smaller than what you
+   handed it" and **dropped the notes' "at most around 1K bytes"**, which isn't a real constant.
+4. **How `epoll` differs mechanically** — register once, kernel keeps the set, returns only
+   ready descriptors. Notes only give the O(n) vs O(1) result.
+5. **Why spinning on non-blocking sockets is bad** ("burns a whole core"). Notes just say
+   "bad idea".
+6. **"Text for almost everything, binary when bandwidth or latency genuinely matter"** — the
+   notes list the options without a recommendation.
+7. **IPv6 multicast framed as receivers opting in, and called the better design** — opinion.
+8. **A socket being a file evidenced by `lsof` and descriptor limits** — mine.
+
+**Content in the notes that did NOT make the post**, in case any should go back in:
+`getpeername`, the `shutdown` vs `close` distinction, data encapsulation, and parts of the
+TCP/UDP table — flow control and sequence numbers get no explicit mention (retransmission and
+congestion backoff do).
+
+**Source attribution:** credited to the [Core Dumped](https://www.youtube.com/@CoreDumpped)
+channel, taken from the `os/Welcome` note's own statement that the vault is "based on Core
+Dumped youtube channel and general googling". Confirm that's right for this note specifically.
+
 ### 1. Mine the notes for post ideas
 
 Read through the vaults and pick out which notes have a real post inside them, rather than

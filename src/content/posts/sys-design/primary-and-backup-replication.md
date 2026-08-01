@@ -3,11 +3,12 @@ title: Primary and Backup Replication
 description: >-
   State transfer versus replicated state machines, and how VMware FT keeps a
   backup VM in lockstep with a primary.
-date: '2026-04-18'
+date: '2026-08-01'
 category: sys-design
 tags: []
 draft: false
 source: sys-design/dist-sys/Primary and Backup Replication.md
+updated: '2026-08-01'
 ---
 
 Replication

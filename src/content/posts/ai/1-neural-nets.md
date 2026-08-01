@@ -3,11 +3,12 @@ title: 1-Neural nets
 description: >-
   From the perceptron to backpropagation: loss functions, gradient descent, and
   how the learning rate is chosen.
-date: '2026-04-09'
+date: '2026-08-01'
 category: ai
 tags: []
 draft: false
 source: ai/1-Neural nets.md
+updated: '2026-08-01'
 ---
 
 # basic structure and forward pass funcs

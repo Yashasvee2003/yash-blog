@@ -30,6 +30,12 @@ const { Content, headings } = await render(post);
 const fmt = (d: Date) =>
   d.toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' });
 
+// Every post carries an `updated` date, but showing it on the day of publication
+// is noise — "01 August 2026 · updated 01 August 2026" tells a reader nothing.
+// It appears once the post has actually been revised.
+const showUpdated =
+  !!post.data.updated && post.data.updated.valueOf() !== post.data.date.valueOf();
+
 // Rough, and deliberately so. Strips LaTeX and image syntax first, since a page
 // of KaTeX is not read at prose speed and would badly inflate the count.
 const words = post.body
@@ -58,7 +64,7 @@ const minutes = Math.max(1, Math.round(words / 200));
         <h1>{post.data.title}</h1>
         <p class="post-meta">
           <time datetime={post.data.date.toISOString()}>{fmt(post.data.date)}</time>
-          {post.data.updated && <> · updated {fmt(post.data.updated)}</>}
+          {showUpdated && <> · updated {fmt(post.data.updated!)}</>}
           <> · {minutes} min read</>
           {post.data.draft && <> · <strong>draft</strong></>}
         </p>
