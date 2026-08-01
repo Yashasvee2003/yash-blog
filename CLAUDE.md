@@ -229,21 +229,88 @@ current candidates by substance are `platform-eng/cloud/Networking`, `os/Network
 The `k8s-core/` notes are individually thin but collectively cover a whole architecture —
 they may work better merged into one substantial piece than as ten stubs.
 
-### 2. Study blogs worth imitating
+### 2. Blog research — findings (2026-08-01)
 
-Pull apart what actually makes technical blogs good, and write the conclusions down here so
-they inform later decisions instead of being re-derived. Things to look at deliberately:
-opening paragraphs (how fast do they establish why you should care), diagram density, post
-length distribution, how series are structured, whether they use a newsletter.
+Examined: [Dan Luu](https://danluu.com), [Julia Evans](https://jvns.ca),
+[Brandur Leach](https://brandur.org), [Marc Brooker](https://brooker.co.za/blog/),
+[Simon Willison](https://simonwillison.net).
 
-Reference points in this space: Dan Luu, Julia Evans, Brendan Gregg, Marc Brooker, Aphyr,
-Fly.io's blog, Cloudflare's engineering blog.
+**Inspiration, not imitation.** What follows is *why* these choices work, not a layout to copy.
+Lifting one wholesale gets a site that looks like someone else's and fits this content badly.
 
-**Inspiration, not imitation.** The goal is to work out *why* a choice works — why a given
-blog's landing page makes you want to read something, why its diagrams land — and then apply
-the reasoning here. Lifting a layout wholesale gets a site that looks like someone else's and
-fits this content badly. Write the extracted principles into this file so they survive the
-session.
+#### What essentially all of them do
+
+- **The wordmark is the home link.** Every one of the five uses the author's name in the
+  top-left as the link to `/`. This is the convention, not a mistake — but it works for them
+  because the nav *also* contains distinctly-labelled destinations, so nothing is ambiguous.
+- **Date + title, in that order, as the listing unit.** Dates lead. Ours now does this.
+- **Reverse chronological is the spine**, even where categories exist.
+- **RSS is prominent**, usually in both header and footer. Ours is footer-only.
+- **A real About page** with an actual bio, linked from the top nav.
+- **Contact details in the open.** Marc Brooker puts a plain Gmail address in his footer.
+
+#### Decisions worth stealing
+
+- **Descriptions are optional, and often omitted.** Dan Luu, Marc Brooker, and Julia Evans show
+  *only* date and title. Descriptions are not the norm they seem to be. Relevant here: rather
+  than fight to write a good description for every note, dropping them from listings is a
+  legitimate, well-precedented choice. Keep them in `<meta>` and RSS regardless.
+- **Julia Evans' two-tier home page**: the ~10 most recent posts first, *then* the full set
+  grouped into 30+ categories. Gets recency and browsability on one page without an archive.
+  This suits a site whose value is reference material rather than news — which is what this is.
+- **Simon Willison separates content *types*, not just topics** — long entries vs. links vs.
+  short notes, each with its own feed, all mixed on the home page. **This is the most relevant
+  finding for this blog.** The recurring problem here is that most vault notes are too thin to
+  be posts. A separate lightweight "notes" type would let short material ship honestly as
+  short material, instead of either padding it or leaving it unpublished forever.
+- **Marking standout posts.** Julia Evans stars favourites; Simon Willison curates
+  "Highlights". Once there are more than ~15 posts, a flat list stops guiding anyone.
+- **Grouping the archive by year** (Marc Brooker) — cheap, and it scales indefinitely.
+
+#### Design references (a separate list, and a correction)
+
+The five above were chosen for *structure*, and several look plainly dated — Dan Luu's is
+deliberately near-styleless. That austerity trades on an established reputation; a new blog
+does not get the same latitude.
+
+Scoped to this blog's actual subjects (Kubernetes, distributed systems, OS, ML):
+
+- **ML** — [Jay Alammar](https://jalammar.github.io) is the most relevant reference for this
+  vault. "The Illustrated Transformer" is the canonical visual explanation of attention;
+  compare it against the `ai/2-RNNs, Transformers, Attention` note before expanding that one.
+  Also [Lilian Weng](https://lilianweng.github.io) and the [Distill](https://distill.pub)
+  archive (dormant since 2021, still a masterclass in interactive explanation).
+- **Kubernetes / platform** — [learnk8s](https://learnk8s.io/blog) effectively set the visual
+  standard for k8s architecture diagrams; [Ivan Velichko](https://labs.iximiuz.com) for
+  container and kernel internals; [Fly.io](https://fly.io/blog) and
+  [Cloudflare](https://blog.cloudflare.com) for infra writing with a real design budget.
+- **Distributed systems** — [Marc Brooker](https://brooker.co.za/blog/),
+  [Jack Vanlightly](https://jack-vanlightly.com) (excellent, but benchmark-and-prose heavy
+  rather than visual — do not treat it as a diagram reference),
+  [Phil Eaton](https://notes.eatonphil.com).
+- **OS / low-level** — [Julia Evans](https://jvns.ca),
+  [Brendan Gregg](https://brendangregg.com) (plain site; the charts are the point).
+
+**The finding that matters: well-designed systems blogs barely exist.** Searching specifically
+for them turns up plain sites almost everywhere. The exceptions are ML explainers, where the
+subject is inherently visual, and company blogs with in-house designers.
+
+So there is no polished Kubernetes blog to model, and chasing one is wasted effort. **The
+differentiator available here is diagram quality, not visual chrome.** A plain layout with
+genuinely good diagrams beats an ornate layout in this field — which is the same conclusion
+the Excalidraw export item already points at.
+
+Content-type split (Maggie Appleton's "Essays vs. Notes", Simon Willison's per-type feeds)
+remains the strongest candidate fix for the 46 unpublished notes, independent of visual design.
+
+#### Deliberately not adopting
+
+- **Newsletter signup** (Julia Evans, Brandur). Adds an ongoing obligation; revisit only if
+  the blog gets regular readers.
+- **Photography / large hero images** (Brandur). His blog is partly a photography site; this
+  one is technical reference material.
+- **Extremely austere styling** (Dan Luu). It works because of his reputation and volume. A new
+  blog with four posts does not get that latitude.
 
 ### 3. Improve the design
 

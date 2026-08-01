@@ -11,17 +11,22 @@ interface Props {
 
 const { title, description = '', ogType = 'website' } = Astro.props;
 
-// Add handles here as they're confirmed; entries with an empty href are skipped.
+// Entries with an empty href are skipped, so a link can be staged here before
+// the handle is settled.
 const socials = [
   { href: 'https://github.com/Yashasvee2003', label: 'GitHub' },
-  { href: '', label: 'LinkedIn' },
-  { href: '', label: 'Twitter' },
+  { href: 'https://www.linkedin.com/in/yashasvee-vijaykumar-706a84225/', label: 'LinkedIn' },
+  { href: 'https://leetcode.com/u/cooldude4539/', label: 'LeetCode' },
 ].filter((s) => s.href);
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const pathname = Astro.url.pathname;
 
+// "Home" is spelled out rather than left implicit in the wordmark. The wordmark
+// still links to `/` (that is the convention everywhere), but on its own it was
+// the *only* way home while the nav's first item was labelled "Posts" and went
+// to the same place — two links, one destination, neither saying "home".
 const nav = [
-  { href: '/', label: 'Posts' },
+  { href: '/', label: 'Home' },
   { href: '/topics/', label: 'Topics' },
   { href: '/about/', label: 'About' },
 ];
@@ -66,7 +71,7 @@ const isCurrent = (href: string) =>
   <body>
     <header class="site-header">
       <div class="wrap">
-        <a class="site-title" href="/">Yashasvee</a>
+        <a class="site-title" href="/" aria-label="Yashasvee — home">Yashasvee</a>
         <nav class="site-nav">
           {
             nav.map((item) => (
