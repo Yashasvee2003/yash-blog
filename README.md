@@ -23,10 +23,15 @@ npm run dev      # http://localhost:4321
 
 `src/content/posts/` and `src/assets/notes/` are generated. Don't edit them by hand.
 
-## Deploy settings (Cloudflare Pages)
+## Deploy settings (Cloudflare Workers)
 
 | Setting | Value |
 |---|---|
 | Build command | `npm run build` |
-| Output directory | `dist` |
-| Production branch | `main` |
+| Deploy command | `npx wrangler deploy` |
+| Non-production branch deploy | `npx wrangler versions upload` |
+
+`build` compiles only what is committed — it does not run `sync`, because the vault isn't in
+this repo. Run `npm run sync` locally and commit the result before pushing.
+
+The assets directory (`dist`) is declared in `wrangler.jsonc`, not in the dashboard.

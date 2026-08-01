@@ -27,6 +27,17 @@ const argv = new Set(process.argv.slice(2));
 const DRY_RUN = argv.has('--dry-run');
 const ALL = argv.has('--all');
 
+// The vault is not part of this repo, so it is absent on CI. Bail out before
+// touching anything — otherwise a build on Cloudflare would find zero notes,
+// wipe the committed content collection, and deploy an empty site.
+if (!fs.existsSync(VAULT_ROOT)) {
+  console.log(
+    `No vault at ${VAULT_ROOT} — skipping sync and leaving src/content/posts as committed.\n` +
+      'This is expected on CI: posts are committed to the repo, and sync only runs locally.',
+  );
+  process.exit(0);
+}
+
 const warnings = [];
 const warn = (msg) => warnings.push(msg);
 

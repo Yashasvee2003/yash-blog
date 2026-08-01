@@ -1,0 +1,20 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "yash-blog",
+  "compatibility_date": "2026-08-01",
+
+  // Static-assets-only Worker: there is no `main`, so every request is served
+  // straight from `dist` by Cloudflare's asset layer with no Worker invocation.
+  "assets": {
+    "directory": "./dist",
+    // Astro emits directory-style pages (/posts/foo/index.html), so requests to
+    // /posts/foo should resolve without a redirect loop.
+    "html_handling": "auto-trailing-slash",
+    // Serve the built 404.astro page on a miss instead of a bare plaintext 404.
+    "not_found_handling": "404-page"
+  },
+
+  "observability": {
+    "enabled": true
+  }
+}

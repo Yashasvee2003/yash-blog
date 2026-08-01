@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "npm run sync && astro build",
+    "build": "astro build",
+    "publish": "npm run sync && astro build",
     "preview": "astro preview",
     "check": "astro check",
     "sync": "node scripts/sync-notes.mjs",
@@ -24,5 +25,8 @@
     "rehype-katex": "^7.0.1",
     "remark-math": "^6.0.0",
     "unist-util-visit": "^5.1.0"
+  },
+  "devDependencies": {
+    "wrangler": "^4.118.0"
   }
 }
