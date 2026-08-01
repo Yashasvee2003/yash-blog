@@ -183,13 +183,37 @@ function emitAsset(absSource, vault) {
  */
 function transformEmbeds(body, note) {
   return body.replace(/!\[\[([^\]]+)\]\]/g, (match, inner) => {
-    const [rawTarget] = inner.split('|');
+    const [rawTarget, hint] = inner.split('|');
     const target = rawTarget.trim();
     const images = imageIndex.get(note.vault);
     const drawings = excalidrawNames.get(note.vault);
 
     // Direct image hit.
     const direct = images.get(target.toLowerCase());
+
+    // SVG diagrams are inlined rather than copied. An <img src="x.svg"> is an
+    // isolated document: it cannot see the page's CSS custom properties, so it
+    // can't follow the theme. Inlining lets the diagram inherit --text,
+    // --border and friends, which is the whole reason these were redrawn.
+    // For SVGs the pipe is a caption, not a width hint.
+    if (direct && path.extname(direct).toLowerCase() === '.svg') {
+      const svg = fs
+        .readFileSync(direct, 'utf8')
+        .replace(/<\?xml[^>]*\?>/g, '')
+        .replace(/<!DOCTYPE[^>]*>/gi, '')
+        .replace(/^\s*[\r\n]/gm, '') // blank lines would split the raw HTML block
+        .trim();
+      const caption = hint?.trim();
+      return [
+        `<figure class="diagram">`,
+        svg,
+        caption ? `<figcaption>${caption}</figcaption>` : '',
+        `</figure>`,
+      ]
+        .filter(Boolean)
+        .join('\n');
+    }
+
     if (direct) return `![${path.basename(target, path.extname(target))}](${emitAsset(direct, note.vault)})`;
 
     // An Excalidraw drawing. Usable only if it has been exported to an image.

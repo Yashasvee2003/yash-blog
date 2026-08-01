@@ -399,6 +399,107 @@ a {
   }
 }
 
+/* ---------- inline SVG diagrams ----------
+   The .svg files carry structure and class names only; every colour lives here
+   so the diagrams follow the theme, including the manual toggle. Add a new
+   shape by adding a class here, not a fill attribute in the file. */
+
+.diagram {
+  margin: 2.25rem 0;
+}
+
+.diagram svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.diagram figcaption {
+  margin-top: 0.6rem;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--muted);
+  text-align: center;
+}
+
+.diagram .box {
+  fill: var(--surface);
+  stroke: var(--border);
+  stroke-width: 1.5;
+}
+
+/* The component under discussion. */
+.diagram .box-accent {
+  fill: var(--surface);
+  stroke: var(--accent);
+  stroke-width: 2;
+}
+
+/* A grouping frame rather than a thing. */
+.diagram .box-ghost {
+  fill: none;
+  stroke: var(--border);
+  stroke-width: 1;
+  stroke-dasharray: 5 4;
+}
+
+.diagram .fill-bg {
+  fill: var(--bg);
+}
+
+.diagram text {
+  font-family: var(--font-sans);
+  fill: var(--text);
+  font-size: 13px;
+}
+
+.diagram .t-sm {
+  font-size: 11px;
+  fill: var(--muted);
+}
+
+.diagram .t-mono {
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.diagram .t-strong {
+  font-weight: 600;
+}
+
+.diagram .t-accent {
+  fill: var(--accent);
+}
+
+.diagram .arrow {
+  stroke: var(--muted);
+  stroke-width: 1.5;
+  fill: none;
+}
+
+.diagram .arrow-accent {
+  stroke: var(--accent);
+  stroke-width: 1.75;
+}
+
+.diagram .arrow-dash {
+  stroke-dasharray: 5 4;
+}
+
+.diagram .arrowhead {
+  fill: var(--muted);
+}
+
+.diagram .arrowhead-accent {
+  fill: var(--accent);
+}
+
+.diagram .rule {
+  stroke: var(--border);
+  stroke-width: 1;
+}
+
 /* ---------- prev / next ---------- */
 
 .post-nav {
