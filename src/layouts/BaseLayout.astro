@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import ThemeToggle from '../components/ThemeToggle.astro';
 
 interface Props {
   title: string;
@@ -25,10 +26,26 @@ const isCurrent = (href: string) =>
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="no-js">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    {/* Must stay inline, in <head>, and before any stylesheet: it applies the
+        stored theme before first paint. Deferring it produces a flash of the
+        wrong theme on every navigation. */}
+    <script is:inline>
+      (() => {
+        const root = document.documentElement;
+        root.classList.remove('no-js');
+        try {
+          const stored = localStorage.getItem('theme');
+          if (stored === 'dark' || stored === 'light') root.dataset.theme = stored;
+        } catch {
+          /* private mode / storage disabled — fall back to the system preference */
+        }
+      })();
+    </script>
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
     <link rel="canonical" href={canonical} />
@@ -53,6 +70,7 @@ const isCurrent = (href: string) =>
               </a>
             ))
           }
+          <ThemeToggle />
         </nav>
       </div>
     </header>
