@@ -243,10 +243,37 @@ twice. Cloudflare Registrar sells at cost (~$10/yr).
 ### 0. Yashasvee to verify the Kubernetes post
 
 `platform-eng/Nobody in Kubernetes talks to anybody else` is live and needs a technical
-read-through by someone who knows the material. It was written from the ten `k8s-core` notes,
-and two pieces of reasoning were added that the notes implied but did not state: why funnelling
-everything through the API server is worth the bottleneck, and why creating pods and placing
-pods are deliberately separate processes. Both need confirming or cutting.
+read-through by someone who knows the material.
+
+**Claims I added that are NOT in the `k8s-core` notes.** Each needs confirming or cutting —
+they are my reasoning, not Yashasvee's recorded knowledge:
+
+1. **Why the API-server bottleneck is worth it** — that funnelling everything through one
+   process puts authn, authz, validation and versioning in exactly one place, and that the
+   alternative would need etcd credentials distributed everywhere. Notes only state the fact
+   that the API server alone talks to etcd, never the justification.
+2. **Why creating pods and placing pods are separate processes** — framed as a deliberate
+   separation of "what should exist" from "where it goes". Notes describe both behaviours but
+   never say it is intentional design.
+3. **"etcd cluster sizes are always odd numbers"** — follows from quorum, but the notes only
+   say "quorum idea used to handle failures".
+4. **The term "reconciliation loop"** and the claim that controllers recover from mid-operation
+   restarts because they compare state rather than execute plans. Notes describe watch-driven
+   controllers but never name or characterise the pattern.
+5. **The closing failure-mode section** — that `Pending` means the scheduler found no feasible
+   node, and `ContainerCreating` means the kubelet owns it and CNI/volumes/image-pull haven't
+   finished. Entirely my inference from the trace; not in the notes at all.
+6. **RBAC phrasing** — "Roles that describe what may be done, RoleBindings that attach them to a
+   subject." Notes say only "Authorisation enforcement -> using Roles, role binding".
+7. **API versions given as `v1`/`v1beta1`** — the notes say "v1, v2".
+8. **The Deployment controller "creates pods"** — deliberately simplified. Real path goes via a
+   ReplicaSet, which the notes never mention, so I avoided naming it rather than assert it.
+   Worth deciding whether to state the full chain.
+
+**Gap left open on purpose.** Under etcd, the post says: *"My notes describe this as a frequent
+operational need, and I'll leave it there rather than pretend to more operational scar tissue
+than I have."* This is honest but it is a hole where a real compaction or defragmentation story
+would be the best paragraph in the piece. Fill it if there is one.
 
 Also worth a voice pass — it was written without any samples of Yashasvee's own writing, so the
 register is a guess.

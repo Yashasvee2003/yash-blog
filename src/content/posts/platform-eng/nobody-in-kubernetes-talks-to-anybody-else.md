@@ -161,11 +161,9 @@ The component you need is whichever one owns the field that isn't getting filled
 ## Sources
 
 The architecture diagrams throughout this post are by **Bibin Wilson**, from
-[Kubernetes Architecture Explained (With Illustrated Diagrams)](https://devopscube.com/kubernetes-architecture-explained/)
-on [DevOpsCube](https://devopscube.com). They're the clearest set I've found for this material,
-which is why I learned from them in the first place — his [full Kubernetes
-tutorial series](https://devopscube.com/kubernetes-tutorials-beginners/) is worth your time if
-you want more depth on any single component here.
+[Kubernetes Architecture](https://blog.techiescamp.com/docs/kubernetes-architecture/) on the
+[TechiesCamp blog](https://blog.techiescamp.com/author/bibin/). They're the clearest set I've
+found for this material, which is why I learned from them in the first place.
 
 The scheduling and reconciliation behaviour described above comes from my own notes taken while
 working through Kubernetes internals; any errors in the prose are mine, not his.
