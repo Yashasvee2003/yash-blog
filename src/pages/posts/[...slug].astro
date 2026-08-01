@@ -1,0 +1,40 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { CATEGORIES } from '../../content.config';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+interface Props {
+  post: CollectionEntry<'posts'>;
+}
+
+const { post } = Astro.props;
+const { Content, headings } = await render(post);
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' });
+---
+
+<BaseLayout title={`${post.data.title} — Yashasvee`} description={post.data.description} ogType="article">
+  <article>
+    <header class="post-header">
+      <a class="post-meta" href={`/topics/${post.data.category}/`}>
+        {CATEGORIES[post.data.category]}
+      </a>
+      <h1>{post.data.title}</h1>
+      <p class="post-meta">
+        <time datetime={post.data.date.toISOString()}>{fmt(post.data.date)}</time>
+        {post.data.updated && <> · updated {fmt(post.data.updated)}</>}
+        {post.data.draft && <> · <strong>draft</strong></>}
+      </p>
+    </header>
+
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>

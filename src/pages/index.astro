@@ -1,0 +1,59 @@
+---
+import { getCollection } from 'astro:content';
+import { CATEGORIES, type Category } from '../content.config';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const posts = (await getCollection('posts', ({ data }) => import.meta.env.PROD ? !data.draft : true)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+
+const order = Object.keys(CATEGORIES) as Category[];
+const grouped = order
+  .map((category) => ({
+    category,
+    label: CATEGORIES[category],
+    items: posts.filter((p) => p.data.category === category),
+  }))
+  .filter((group) => group.items.length > 0);
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+---
+
+<BaseLayout
+  title="Yashasvee — notes on systems and machine learning"
+  description="Writing on distributed systems, Kubernetes, operating systems, and machine learning."
+>
+  <p class="lede">
+    Working notes on distributed systems, platform engineering, operating systems, and machine
+    learning — written down properly so they hold up when I come back to them.
+  </p>
+
+  {
+    posts.length === 0 && (
+      <p class="post-meta">
+        No posts yet. Add <code>publish: true</code> to a note in the vault and run{' '}
+        <code>npm run sync</code>.
+      </p>
+    )
+  }
+
+  {
+    grouped.map((group) => (
+      <section class="topic-group">
+        <h2>
+          <a href={`/topics/${group.category}/`}>{group.label}</a>
+        </h2>
+        <ul class="post-list">
+          {group.items.map((post) => (
+            <li>
+              <a href={`/posts/${post.id}/`}>{post.data.title}</a>
+              <span class="post-meta"> · {fmt(post.data.date)}</span>
+              {post.data.description && <p>{post.data.description}</p>}
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+</BaseLayout>

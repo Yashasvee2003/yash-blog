@@ -1,0 +1,40 @@
+---
+import { getCollection } from 'astro:content';
+import { CATEGORIES, type Category } from '../../content.config';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  return (Object.keys(CATEGORIES) as Category[]).map((category) => ({
+    params: { category },
+    props: {
+      category,
+      posts: posts
+        .filter((p) => p.data.category === category)
+        .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()),
+    },
+  }));
+}
+
+const { category, posts } = Astro.props;
+const label = CATEGORIES[category as Category];
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+---
+
+<BaseLayout title={`${label} — Yashasvee`} description={`Posts on ${label}.`}>
+  <h1>{label}</h1>
+  {posts.length === 0 && <p class="post-meta">Nothing published here yet.</p>}
+  <ul class="post-list">
+    {
+      posts.map((post) => (
+        <li>
+          <a href={`/posts/${post.id}/`}>{post.data.title}</a>
+          <span class="post-meta"> · {fmt(post.data.date)}</span>
+          {post.data.description && <p>{post.data.description}</p>}
+        </li>
+      ))
+    }
+  </ul>
+</BaseLayout>

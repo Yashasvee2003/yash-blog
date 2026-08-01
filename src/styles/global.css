@@ -1,0 +1,314 @@
+@import 'katex/dist/katex.min.css';
+
+:root {
+  --bg: #fdfdfc;
+  --surface: #f4f4f1;
+  --text: #1c1c1a;
+  --muted: #6b6b64;
+  --border: #e2e2dc;
+  --accent: #9a4b1f;
+  --code-bg: #f4f4f1;
+
+  --font-sans: ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif;
+  --font-serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
+  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+
+  --measure: 68ch;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #16161a;
+    --surface: #1e1e23;
+    --text: #e4e4e0;
+    --muted: #9a9a94;
+    --border: #2e2e35;
+    --accent: #e89b6c;
+    --code-bg: #1e1e23;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+a {
+  color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+/* ---------- header / footer ---------- */
+
+.site-header {
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 3rem;
+}
+
+.site-header .wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem 1.5rem;
+  padding-block: 1.5rem;
+}
+
+.site-title {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  margin-right: auto;
+}
+
+.site-nav {
+  display: flex;
+  gap: 1.25rem;
+  font-size: 0.9rem;
+}
+
+.site-nav a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.site-nav a:hover,
+.site-nav a[aria-current='page'] {
+  color: var(--text);
+}
+
+.site-footer {
+  margin-top: 5rem;
+  padding-block: 2rem;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.site-footer .wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+/* ---------- listings ---------- */
+
+.lede {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  color: var(--muted);
+  max-width: 55ch;
+  margin: 0 0 3rem;
+}
+
+.topic-group {
+  margin-bottom: 3rem;
+}
+
+.topic-group h2 {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin: 0 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.post-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.post-list li {
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.post-list li:last-child {
+  border-bottom: none;
+}
+
+.post-list a {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.post-list a:hover {
+  color: var(--accent);
+}
+
+.post-list p {
+  margin: 0.25rem 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.post-meta {
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- article ---------- */
+
+.post-header {
+  margin-bottom: 2.5rem;
+}
+
+.post-header h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.9rem, 5vw, 2.5rem);
+  line-height: 1.2;
+  margin: 0.5rem 0;
+}
+
+.prose {
+  font-size: 1.02rem;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4 {
+  font-family: var(--font-serif);
+  line-height: 1.25;
+  margin: 2.5rem 0 0.75rem;
+  scroll-margin-top: 2rem;
+}
+
+.prose h1 { font-size: 1.7rem; }
+.prose h2 { font-size: 1.4rem; }
+.prose h3 { font-size: 1.15rem; }
+.prose h4 { font-size: 1rem; }
+
+.prose p,
+.prose ul,
+.prose ol {
+  margin: 0 0 1.1rem;
+}
+
+.prose li {
+  margin-bottom: 0.35rem;
+}
+
+.prose li > ul,
+.prose li > ol {
+  margin: 0.35rem 0 0;
+}
+
+.prose img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 1.75rem auto;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: #fff;
+}
+
+.prose hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2.5rem 0;
+}
+
+.prose blockquote {
+  margin: 1.5rem 0;
+  padding: 0.25rem 0 0.25rem 1.1rem;
+  border-left: 3px solid var(--border);
+  color: var(--muted);
+}
+
+.prose mark {
+  background: color-mix(in srgb, var(--accent) 20%, transparent);
+  color: inherit;
+  padding: 0 0.15em;
+  border-radius: 2px;
+}
+
+.prose :not(pre) > code {
+  font-family: var(--font-mono);
+  font-size: 0.87em;
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 0.1em 0.35em;
+}
+
+.prose pre {
+  padding: 1rem 1.1rem;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  overflow-x: auto;
+  font-size: 0.87rem;
+  line-height: 1.55;
+}
+
+/* Tables and long math can exceed the measure — scroll them, never the page. */
+.table-scroll,
+.prose .katex-display {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.prose table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.92rem;
+  margin: 1.5rem 0;
+}
+
+.prose th,
+.prose td {
+  border: 1px solid var(--border);
+  padding: 0.5rem 0.7rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.prose th {
+  background: var(--surface);
+  font-weight: 600;
+}
+
+.prose .katex-display {
+  padding: 0.4rem 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  .astro-code,
+  .astro-code span {
+    color: var(--shiki-dark) !important;
+    background-color: var(--shiki-dark-bg) !important;
+  }
+  .prose img {
+    background: #f4f4f1;
+  }
+}
