@@ -3,6 +3,11 @@
   "name": "yash-blog",
   "compatibility_date": "2026-08-01",
 
+  // Pinned explicitly. It defaults to true, but leaving it implicit made the
+  // dashboard's Domains panel show workers.dev as "Disabled" while the route was
+  // in fact serving — stating it keeps dashboard and reality in agreement.
+  "workers_dev": true,
+
   // Static-assets-only Worker: there is no `main`, so every request is served
   // straight from `dist` by Cloudflare's asset layer with no Worker invocation.
   "assets": {
