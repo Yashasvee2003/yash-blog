@@ -213,9 +213,11 @@ will drift.
 
 Roughly in priority order. Nothing here is urgent — the pipeline works and the site is live.
 
-### ⚠ IMPORTANT — raise this whenever TODOs are reviewed
+### ⚠ IMPORTANT — raise all three whenever TODOs are reviewed
 
-**Set up a dedicated blog email and put it in the footer.** Currently there is no way for a
+These need Yashasvee's input and cannot be done unilaterally. Bring them up every time.
+
+**1. A dedicated blog email, in the footer.** Currently there is no way for a
 reader to make contact, which forfeits most of what a blog is practically good for — someone
 reads a post and wants to ask a question, offer work, or correct you.
 
@@ -227,6 +229,16 @@ it can be abandoned if it ever drowns in spam. Avoid `+blog` style aliases; scra
 Precedent: Marc Brooker publishes a plain Gmail address in his blog footer.
 
 Once the address exists this is a one-line change in `BaseLayout.astro`.
+
+**2. `about.astro` is still placeholder text**, with a literal `TODO` comment in it — on a page
+linked from the top nav. Every blog in the research above has a real About page with an actual
+bio; it is the cheapest credibility fix available. Needs three or four sentences from
+Yashasvee about who he is and what the blog is for. Cannot be invented on his behalf.
+
+**3. Decide on a custom domain.** `site` in `astro.config.mjs` currently points at the
+`workers.dev` URL, which works but is not a durable address — every inbound link and RSS
+subscriber is tied to it. Settling this also unblocks OG images, which are otherwise done
+twice. Cloudflare Registrar sells at cost (~$10/yr).
 
 ### 1. Mine the notes for post ideas
 
