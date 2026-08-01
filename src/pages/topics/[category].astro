@@ -30,9 +30,13 @@ const fmt = (d: Date) =>
     {
       posts.map((post) => (
         <li>
-          <a href={`/posts/${post.id}/`}>{post.data.title}</a>
-          <span class="post-meta"> · {fmt(post.data.date)}</span>
-          {post.data.description && <p>{post.data.description}</p>}
+          <time class="post-date" datetime={post.data.date.toISOString()}>
+            {fmt(post.data.date)}
+          </time>
+          <div class="post-entry">
+            <a href={`/posts/${post.id}/`}>{post.data.title}</a>
+            {post.data.description && <p>{post.data.description}</p>}
+          </div>
         </li>
       ))
     }

@@ -1,6 +1,8 @@
 ---
 title: Network Programming
-description: client
+description: >-
+  A walk through the BSD sockets sequence — getaddrinfo, socket, bind, connect,
+  listen, accept — and what each call actually does.
 date: '2026-06-11'
 category: os
 tags: []

@@ -7,11 +7,16 @@ interface Props {
   description?: string;
   /** Absolute-ish path used for canonical + og:url. */
   ogType?: 'website' | 'article';
-  /** Widen the page to make room for the sticky table of contents. */
-  wide?: boolean;
 }
 
-const { title, description = '', ogType = 'website', wide = false } = Astro.props;
+const { title, description = '', ogType = 'website' } = Astro.props;
+
+// Add handles here as they're confirmed; entries with an empty href are skipped.
+const socials = [
+  { href: 'https://github.com/Yashasvee2003', label: 'GitHub' },
+  { href: '', label: 'LinkedIn' },
+  { href: '', label: 'Twitter' },
+].filter((s) => s.href);
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const pathname = Astro.url.pathname;
 
@@ -58,7 +63,7 @@ const isCurrent = (href: string) =>
     <meta name="twitter:card" content="summary" />
     <meta name="generator" content={Astro.generator} />
   </head>
-  <body class={wide ? 'layout-wide' : undefined}>
+  <body>
     <header class="site-header">
       <div class="wrap">
         <a class="site-title" href="/">Yashasvee</a>
@@ -82,7 +87,16 @@ const isCurrent = (href: string) =>
     <footer class="site-footer">
       <div class="wrap">
         <span>Notes on systems, infrastructure, and machine learning.</span>
-        <a href="/rss.xml">RSS</a>
+        <nav class="footer-links" aria-label="Elsewhere">
+          {
+            socials.map((s) => (
+              <a href={s.href} rel="me noopener" target="_blank">
+                {s.label}
+              </a>
+            ))
+          }
+          <a href="/rss.xml">RSS</a>
+        </nav>
       </div>
     </footer>
   </body>

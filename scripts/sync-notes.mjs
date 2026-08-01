@@ -238,13 +238,46 @@ function transformHighlights(body) {
   return body.replace(/==([^=\n]+)==/g, '<mark>$1</mark>');
 }
 
-/** First real paragraph, used as a fallback meta description. */
+/**
+ * Fallback meta description: the first line that reads like a sentence.
+ *
+ * These notes routinely open with a bare label ("Replication", "client") or a
+ * list marker, and those made terrible descriptions on the listing pages — they
+ * are the first thing a reader sees. Anything shorter than this is treated as a
+ * fragment and skipped; returning nothing is better than returning "client".
+ *
+ * Prefer writing a real `description:` in the note's frontmatter. This is only
+ * a floor.
+ */
+const MIN_DESCRIPTION = 60;
+
 function deriveDescription(body) {
+  let inFence = false;
+
   for (const line of body.split('\n')) {
     const t = line.trim();
+
+    // Fenced code has to be tracked as a block: its lines don't start with a
+    // backtick, so a line-by-line check happily returns a snippet of Go.
+    if (/^(```|~~~)/.test(t)) {
+      inFence = !inFence;
+      continue;
+    }
+    if (inFence) continue;
+
     if (!t) continue;
-    if (/^[#>|`\-*!<]/.test(t) || t.startsWith('$$')) continue;
-    return t.replace(/[*_`$]/g, '').slice(0, 180);
+    // Headings, quotes, tables, code, lists (bulleted and numbered), images, math.
+    if (/^[#>|`\-*!<]/.test(t) || /^\d+[.)]\s/.test(t) || t.startsWith('$$')) continue;
+    // A bare link is a reference, not a summary.
+    if (/^<?https?:\/\//.test(t)) continue;
+
+    const clean = t
+      .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
+      .replace(/[*_`$]/g, '')
+      .trim();
+
+    if (clean.length < MIN_DESCRIPTION) continue;
+    return clean.length > 180 ? `${clean.slice(0, 177).trimEnd()}…` : clean;
   }
   return '';
 }

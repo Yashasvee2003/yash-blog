@@ -1,6 +1,8 @@
 ---
 title: 3- CNNs
-description: 1. filter vs kernel
+description: >-
+  Why flattening an image for a dense network throws away spatial structure, and
+  how filters, convolution, and pooling recover it.
 date: '2026-04-16'
 category: ai
 tags: []

@@ -1,8 +1,8 @@
 ---
 title: 1-Neural nets
 description: >-
-  Cross entropy loss can be used with models that output a probability between 0
-  and 1.
+  From the perceptron to backpropagation: loss functions, gradient descent, and
+  how the learning rate is chosen.
 date: '2026-04-09'
 category: ai
 tags: []

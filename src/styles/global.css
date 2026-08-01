@@ -26,7 +26,17 @@
   --font-serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
   --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
 
+  /*
+   * Two widths, on purpose.
+   *
+   * --measure is the reading column. It stays narrow because long lines are
+   * genuinely harder to read; widening it would make the prose worse, not
+   * better. --page is everything that is not prose — header, footer, listings,
+   * the ToC margin. Those have no reading measure to respect and should use
+   * the screen.
+   */
   --measure: 68ch;
+  --page: 66rem;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -74,9 +84,16 @@ body {
 }
 
 .wrap {
-  max-width: var(--measure);
+  max-width: var(--page);
   margin: 0 auto;
-  padding: 0 1.25rem;
+  padding: 0 1.5rem;
+}
+
+/* Prose and anything read as prose stays at the reading measure, regardless of
+   how wide the page around it gets. */
+.prose,
+.post-header {
+  max-width: var(--measure);
 }
 
 a {
@@ -141,6 +158,20 @@ a {
   justify-content: space-between;
 }
 
+.footer-links {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.footer-links a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.footer-links a:hover {
+  color: var(--text);
+}
+
 /* ---------- listings ---------- */
 
 .lede {
@@ -166,14 +197,21 @@ a {
   border-bottom: 1px solid var(--border);
 }
 
-.post-list {
+.post-list,
+.topic-list {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
+/* Date in a fixed gutter, entry in the remaining space. Listings are short
+   items, not prose, so they get the full page width. */
 .post-list li {
-  padding: 0.85rem 0;
+  display: grid;
+  grid-template-columns: 8.5rem minmax(0, 1fr);
+  gap: 0 1.75rem;
+  align-items: baseline;
+  padding: 0.9rem 0;
   border-bottom: 1px solid var(--border);
 }
 
@@ -181,21 +219,56 @@ a {
   border-bottom: none;
 }
 
-.post-list a {
+.post-date {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.post-entry a {
   color: var(--text);
   text-decoration: none;
   font-weight: 500;
 }
 
-.post-list a:hover {
+.post-entry a:hover {
   color: var(--accent);
 }
 
-.post-list p {
+.post-entry p {
   margin: 0.25rem 0 0;
   color: var(--muted);
   font-size: 0.9rem;
   line-height: 1.5;
+  /* Descriptions are read, so they keep a measure even out here. */
+  max-width: 62ch;
+}
+
+@media (max-width: 40rem) {
+  .post-list li {
+    grid-template-columns: 1fr;
+    gap: 0.15rem;
+  }
+}
+
+.topic-list li {
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.topic-list li:last-child {
+  border-bottom: none;
+}
+
+.topic-list a {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.topic-list a:hover {
+  color: var(--accent);
 }
 
 .post-meta {
@@ -205,12 +278,6 @@ a {
 }
 
 /* ---------- post layout + table of contents ---------- */
-
-/* Only post pages widen, and only far enough to seat the ToC beside the text.
-   The reading column itself never grows past --measure. */
-.layout-wide .wrap {
-  max-width: calc(var(--measure) + 16rem);
-}
 
 .post-layout > article {
   max-width: var(--measure);
@@ -271,9 +338,12 @@ a {
 @media (min-width: 1080px) {
   .post-layout {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 13rem;
-    gap: 3.5rem;
+    grid-template-columns: minmax(0, var(--measure)) 13rem;
+    gap: 4rem;
     align-items: start;
+    /* The article + ToC pair is narrower than --page; centre it rather than
+       letting it hug the left edge under a full-width header. */
+    justify-content: center;
   }
 
   .post-aside {
