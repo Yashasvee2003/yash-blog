@@ -99,9 +99,18 @@ a stray `sync` on CI can't wipe the committed content and deploy an empty site.)
 
 `scripts/sync-notes.mjs` translates Obsidian-flavoured markdown into standard markdown:
 
+- **SVG diagrams are inlined, not copied.** `![[foo.svg]]` has its contents pasted straight
+  into the markdown inside a `<figure class="diagram">`. An `<img src="x.svg">` is an isolated
+  document and cannot see the page's custom properties, so it could never follow the theme.
+  Inlining lets diagrams inherit `--text`, `--border` and the rest, including through the
+  manual dark-mode toggle. **For SVG embeds the pipe is a caption**, not a width hint.
+  All colour lives in `global.css` against class names (`.box`, `.box-accent`, `.arrow`,
+  `.t-sm`…); the `.svg` files carry structure only. Never put a `fill` or `stroke` attribute
+  in a diagram file.
 - **Image embeds** — `![[foo.png]]` resolves against a vault-wide filename index, exactly
   like Obsidian does. Files are slugified (spaces break markdown paths) and copied into
   `src/assets/notes/<vault>/`, so Astro optimises them into WebP with intrinsic dimensions.
+  As of 2026-08-02 **no published post uses one** — a sync run copies zero assets.
 - **Width hints** — `![[foo.png|700]]` drops the width. Those were sized for the Obsidian
   editor pane; the site constrains images with CSS instead.
 - **Wikilinks** — `[[Note]]` / `[[Note|alias]]` / `[[Note#heading]]` become real links when
@@ -115,18 +124,19 @@ a stray `sync` on CI can't wipe the committed content and deploy an empty site.)
 Sync warnings are not fatal but should be read. Unresolved embeds become HTML comments in
 the output, so a broken image is invisible on the page — the warning is the only signal.
 
-## Excalidraw drawings
+## Excalidraw drawings — no longer a blocker
 
-The 8 drawings in the vaults are stored by the Obsidian Excalidraw plugin as
-`compressed-json` inside `.md` files. There is no exported raster image, and nothing in the
-build pipeline can render that format.
+The 8 drawings in the vaults are stored by the Obsidian Excalidraw plugin as `compressed-json`
+inside `.md` files, with no exported raster image, and nothing in the build pipeline can render
+that format. Sync still turns an unresolved one into an HTML comment and warns.
 
-To publish a note containing one: open the drawing in Obsidian, **Export as PNG** into the
-same vault, then re-run sync. The script looks for `<drawing name>.png` beside it and picks
-it up automatically. Until then the embed becomes an HTML comment and sync warns.
+**This stopped mattering.** Every post redraws its diagrams as hand-authored SVG anyway, so the
+drawings are things to draw *from*, not files to export. `platform-eng/cloud/Networking` and
+`os/Process` both shipped this way. If a future note needs one, either redraw it or export a
+PNG from Obsidian into the vault — sync picks up `<drawing name>.png` automatically.
 
-Affected notes: `sys-design/Caching`, `sys-design/DataStores`, `sys-design/Database`,
-`platform-eng/cloud/Networking`, `os/Cache`, `os/Process`.
+Remaining notes that still embed one: `sys-design/Caching`, `sys-design/DataStores`,
+`sys-design/Database`, `os/Cache`.
 
 ## Markdown processor
 
@@ -159,9 +169,8 @@ in `wrangler.jsonc`. A failed build leaves the previous deploy live.
 `public/_headers` sets immutable caching on hashed assets; Workers static assets honours it.
 
 `site` in `astro.config.mjs` must be updated when a custom domain is attached — it drives
-absolute URLs in the sitemap and RSS feed. It currently points at the `.pages.dev` placeholder
-and is therefore **wrong** — the real URL is the `workers.dev` one above. Worth fixing
-whenever the domain question is settled.
+absolute URLs in the sitemap and RSS feed. It now points at the `workers.dev` URL, which is
+correct; update it again if a custom domain is attached.
 
 If the dashboard ever shows `workers.dev` as "Disabled" while the site is plainly reachable,
 trust the site. `curl -sI <url>` from outside the browser settles it. `workers_dev: true` is
