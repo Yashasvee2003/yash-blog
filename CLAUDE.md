@@ -315,6 +315,37 @@ congestion backoff do).
 channel, taken from the `os/Welcome` note's own statement that the vault is "based on Core
 Dumped youtube channel and general googling". Confirm that's right for this note specifically.
 
+### 0c. Yashasvee to verify the Primary and Backup Replication post
+
+Rewritten 2026-08-02 from bullets into prose, with four original diagrams replacing the MIT
+lecture image.
+
+**Claims added beyond the notes** — confirm or cut:
+
+1. **"Works on unmodified operating systems, the guest has no idea"** — true of VMware FT but
+   nowhere in the notes.
+2. **The state-transfer-vs-RSM framing as "ship the answer / ship the question"** — mine.
+3. **The backup described as a running server whose output the hypervisor suppresses**, with
+   failover being suppression *stopping*. Notes only say B's VMM does a "go live".
+4. **Why multicore is unfixable** — two threads racing for a lock, resolved by timing below
+   anything loggable. Notes say only "multicore: **Soln**: only allow unicore!".
+5. **"A dead primary and an unreachable one look identical"** — standard, but not in the notes.
+6. **Split brain generalised** to "an external arbiter that can only say yes once", plus the
+   observation that the arbiter is itself usually a replicated service. Notes describe only the
+   test-and-set lock.
+7. **The closing thesis** — "a replication scheme is mostly a list of things you have decided
+   the machine is no longer allowed to do." Entirely mine, and the strongest claim in the post.
+8. **Calling the one-core restriction "a striking amount of performance to trade away"** —
+   opinion.
+
+**Compressed from the notes:** the hardware-clock mechanism (primary's clock ticks many times a
+second, the VMM turns each into an interrupt to the guest, which is what drives log generation)
+is folded into the interrupt-timing section rather than explained separately. Restore it if the
+detail matters.
+
+**Attribution:** confirmed by Yashasvee as MIT 6.824 lecture material. The lecture image was
+replaced with original diagrams; the course and the VMware FT paper are both cited.
+
 ### 1. Post pipeline — ranked (mining pass done 2026-08-01)
 
 All 50 notes were read and scored on three tests: was it worked out rather than copied, did the
