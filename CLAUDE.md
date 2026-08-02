@@ -498,6 +498,46 @@ ascent on the input, not quite the sign-based FGSM from that paper.
 **Dropped from the note:** the PRNG / sampling-from-a-normal section and the reparametrisation
 trick. Both belong with a VAE post, not this argument.
 
+### 0h. Yashasvee to verify the two Tier-2 posts
+
+Both written 2026-08-02. The storage-engines merge was **dropped** — he saw no use in it.
+
+#### Linux is not an operating system (`/posts/os/linux-is-not-an-operating-system/`)
+
+From `os/os vs kernel` (155w). Three original diagrams.
+
+1. **The two-boundaries framing is the thesis and it's mine.** One boundary is enforced by the
+   CPU, the other is a naming convention. The note states both facts and never contrasts them.
+2. **The specific distro comparison** — Debian/Arch/Alpine, apt/pacman/apk, glibc vs musl,
+   systemd vs OpenRC. The note says only "same kernel but diff user space processes... diff
+   design philosophy". Every concrete example is mine; check they're accurate.
+3. **The syscall as the sole crossing.** Standard, but the note only says hardware work happens
+   in kernel space.
+4. **⚠ The browser paragraph alludes to litigation** — "argued in court, at length, with billions
+   of dollars on it". That's US v. Microsoft. I deliberately did not name it, but it is still a
+   factual claim about a real case attached to his name. Cut or confirm.
+
+#### Go concurrency (`/posts/sys-design/go-concurrency/`)
+
+From `Golang` + `Go Threads and Raft` (569w combined). Two diagrams, **11 code blocks** — which
+also serves as the syntax-highlighting stress test the design TODO wanted.
+
+1. **⚠ All the Go code is mine.** The note's four patterns are *screenshots* of code, which I did
+   not transcribe — I wrote idiomatic Go from the written descriptions. Canonical patterns, but
+   every line needs checking against what he actually studied.
+2. **Three WaitGroup gotchas** — `Add` before the goroutine starts, `defer Done`, pass the loop
+   variable as an argument. None are in the notes.
+3. **`for` not `if` around `cond.Wait`** — a correctness requirement, not in the notes.
+4. **Interface inversion** — that the *consumer* defines the interface and the implementer never
+   declares it. Note says only "struct satisfies interface implicitly".
+5. **The two-account invariant example.** The note has the principle ("locks... can ensure a
+   group of variables satisfy some property eg. their sum is fixed"); the worked example is mine.
+6. **Buffer size as backpressure**, and the closing rule — channel when something is *handed
+   over*, lock when something is *shared*. Both mine.
+
+**Note:** the post drops Raft entirely despite the source note's title. The note is really about
+Go patterns that happen to be used for Raft, so there was no Raft content to lose.
+
 ### 1. Post pipeline — ranked (mining pass done 2026-08-01)
 
 All 50 notes were read and scored on three tests: was it worked out rather than copied, did the
