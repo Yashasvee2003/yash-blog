@@ -61,6 +61,36 @@ Adding a vault means adding it to `VAULTS` in both scripts *and* to `CATEGORIES`
 `src/content.config.ts`. The Zod schema will fail the build if a post has a category that
 isn't listed there — that's intentional.
 
+## Categories and tags
+
+Two different axes, and they must not be made to do the same job.
+
+**A category is where the note lives.** It comes from the vault directory, every post has exactly
+one, and it is validated by the Zod schema — an unknown category fails the build. Categories are
+structural and change only when a vault is added.
+
+**A tag cuts across categories.** That is the entire reason both exist. `linux` spans three posts
+in `os`; `kubernetes` spans `platform-eng` posts that sit under different subdirectories;
+`concurrency` links an `os` post to a `sys-design` one. A tag that only ever appears inside one
+category is doing the category's job and should be dropped.
+
+Tags render as chips at the foot of a post and link to `/tags/<tag>/`. The full set with counts
+is listed on `/topics/`. Nothing needs registering — `getStaticPaths` derives the pages from
+whatever tags exist across the collection.
+
+Conventions:
+
+- **lowercase, hyphenated** — `deep-learning`, `fault-tolerance`, never `Deep Learning`
+- **two to four per post.** More than that and none of them mean anything.
+- **prefer an existing tag** over a near-synonym. Check `/topics/` before inventing one; `k8s`
+  and `kubernetes` as separate tags is the failure mode.
+- A singleton tag is acceptable when it is specific and someone might plausibly search it
+  (`aws`, `go`, `security`). It is not acceptable when it is vague (`architecture`, `systems`).
+
+Current vocabulary (16): `kubernetes`, `distributed-systems`, `networking`, `linux`, `kernel`,
+`concurrency`, `deep-learning`, `aws`, `debugging`, `fault-tolerance`, `go`, `memory`,
+`security`, `training`, `computer-vision`, `generalisation`.
+
 ## Publishing workflow
 
 Every note carries frontmatter with `publish: false` by default. Nothing reaches the site

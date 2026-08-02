@@ -6,7 +6,9 @@ description: >-
   OS'.
 date: '2026-08-02'
 category: os
-tags: []
+tags:
+  - linux
+  - kernel
 draft: false
 source: os/os vs kernel.md
 updated: '2026-08-02'

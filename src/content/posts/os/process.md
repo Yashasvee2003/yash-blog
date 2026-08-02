@@ -6,7 +6,11 @@ description: >-
   Meltdown happened.
 date: '2026-08-02'
 category: os
-tags: []
+tags:
+  - linux
+  - kernel
+  - memory
+  - security
 draft: false
 source: os/Process.md
 updated: '2026-08-02'

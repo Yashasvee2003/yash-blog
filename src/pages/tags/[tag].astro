@@ -1,0 +1,48 @@
+---
+import { getCollection } from 'astro:content';
+import { CATEGORIES } from '../../content.config';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  const tags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
+
+  return tags.map((tag) => ({
+    params: { tag },
+    props: {
+      tag,
+      posts: posts
+        .filter((p) => p.data.tags.includes(tag))
+        .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()),
+    },
+  }));
+}
+
+const { tag, posts } = Astro.props;
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+---
+
+<BaseLayout title={`${tag} — Yashasvee`} description={`Posts tagged ${tag}.`}>
+  <p class="post-meta"><a href="/topics/">All topics and tags</a></p>
+  <h1>#{tag}</h1>
+  <ul class="post-list">
+    {
+      posts.map((post) => (
+        <li>
+          <time class="post-date" datetime={post.data.date.toISOString()}>
+            {fmt(post.data.date)}
+          </time>
+          <div class="post-entry">
+            <a href={`/posts/${post.id}/`}>{post.data.title}</a>
+            <p>
+              <span class="post-meta">{CATEGORIES[post.data.category]}</span>
+              {post.data.description && <> — {post.data.description}</>}
+            </p>
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+</BaseLayout>

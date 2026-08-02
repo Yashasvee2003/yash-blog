@@ -6,7 +6,9 @@ description: >-
   to do it.
 date: '2026-08-01'
 category: sys-design
-tags: []
+tags:
+  - distributed-systems
+  - fault-tolerance
 draft: false
 source: sys-design/dist-sys/Primary and Backup Replication.md
 updated: '2026-08-02'

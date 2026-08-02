@@ -9,6 +9,12 @@ const topics = (Object.keys(CATEGORIES) as Category[]).map((category) => ({
   label: CATEGORIES[category],
   count: posts.filter((p) => p.data.category === category).length,
 }));
+
+// Categories come from the vault directory, so every post has exactly one.
+// Tags cut across them — that is the whole point of having both.
+const tags = [...new Set(posts.flatMap((p) => p.data.tags))]
+  .map((tag) => ({ tag, count: posts.filter((p) => p.data.tags.includes(tag)).length }))
+  .sort((a, b) => b.count - a.count || a.tag.localeCompare(b.tag));
 ---
 
 <BaseLayout title="Topics — Yashasvee" description="Browse posts by topic.">
@@ -23,4 +29,19 @@ const topics = (Object.keys(CATEGORIES) as Category[]).map((category) => ({
       ))
     }
   </ul>
+
+  <h2 class="tags-heading">Tags</h2>
+  <p class="post-meta">
+    A post has exactly one topic — it comes from where the note lives. Tags cut across them.
+  </p>
+  <nav class="tag-row tag-cloud" aria-label="All tags">
+    {
+      tags.map((t) => (
+        <a class="tag" href={`/tags/${t.tag}/`}>
+          #{t.tag}
+          <span class="tag-count">{t.count}</span>
+        </a>
+      ))
+    }
+  </nav>
 </BaseLayout>

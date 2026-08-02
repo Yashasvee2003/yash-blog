@@ -5,7 +5,11 @@ description: >-
   checkpoints, most of which fail silently. Here is all of them, in order.
 date: '2026-08-02'
 category: platform-eng
-tags: []
+tags:
+  - kubernetes
+  - aws
+  - networking
+  - debugging
 draft: false
 source: platform-eng/cloud/Networking.md
 updated: '2026-08-02'

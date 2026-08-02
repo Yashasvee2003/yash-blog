@@ -5,7 +5,9 @@ description: >-
   downhill. Losses, backpropagation, and why mini-batches won.
 date: '2026-08-01'
 category: ai
-tags: []
+tags:
+  - deep-learning
+  - training
 draft: false
 source: ai/1-Neural nets.md
 updated: '2026-08-02'

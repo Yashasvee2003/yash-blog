@@ -74,6 +74,18 @@ const minutes = Math.max(1, Math.round(words / 200));
         <Content />
       </div>
 
+      {
+        post.data.tags.length > 0 && (
+          <nav class="tag-row" aria-label="Tags">
+            {post.data.tags.map((tag) => (
+              <a class="tag" href={`/tags/${tag}/`}>
+                #{tag}
+              </a>
+            ))}
+          </nav>
+        )
+      }
+
       <PostNav prev={prev} next={next} />
     </article>
 

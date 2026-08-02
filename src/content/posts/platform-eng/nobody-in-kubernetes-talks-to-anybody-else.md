@@ -5,7 +5,9 @@ description: >-
   single idea that makes the architecture diagram stop being a tangle of arrows.
 date: '2026-08-01'
 category: platform-eng
-tags: []
+tags:
+  - kubernetes
+  - distributed-systems
 draft: false
 source: platform-eng/Nobody in Kubernetes talks to anybody else.md
 updated: '2026-08-01'

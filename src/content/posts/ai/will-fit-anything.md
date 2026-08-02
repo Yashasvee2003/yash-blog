@@ -6,7 +6,9 @@ description: >-
   sit well together.
 date: '2026-08-02'
 category: ai
-tags: []
+tags:
+  - deep-learning
+  - generalisation
 draft: false
 source: ai/Miscell.md
 updated: '2026-08-02'

@@ -5,7 +5,10 @@ description: >-
   accept really hands back, and why a port number isn't a door.
 date: '2026-08-01'
 category: os
-tags: []
+tags:
+  - networking
+  - concurrency
+  - linux
 draft: false
 source: os/Network Programming.md
 updated: '2026-08-01'

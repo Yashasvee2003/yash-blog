@@ -6,7 +6,9 @@ description: >-
   obvious.
 date: '2026-08-02'
 category: sys-design
-tags: []
+tags:
+  - go
+  - concurrency
 draft: false
 source: sys-design/dist-sys/Go Threads and Raft.md
 updated: '2026-08-02'

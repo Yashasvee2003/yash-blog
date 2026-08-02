@@ -6,7 +6,9 @@ description: >-
   knowing where.
 date: '2026-08-01'
 category: ai
-tags: []
+tags:
+  - deep-learning
+  - computer-vision
 draft: false
 source: ai/3- CNNs.md
 updated: '2026-08-02'
