@@ -454,6 +454,41 @@ supersedes them.
 holding the page table base is described but not named `PTBR`. Both are nice concrete details if
 you want them back.
 
+### 0g. Yashasvee to verify the "will fit anything" essay
+
+Written 2026-08-02 from `ai/Miscell`, at `/posts/ai/will-fit-anything/`. Three original
+diagrams. This is the only post so far that is an **argument** rather than an explanation, so
+it carries more of my reasoning than any of the others — verify it accordingly.
+
+**The thesis is mine.** The note is four unrelated sections (manifold, sampling, Universal
+Approximation Theorem, Rethinking Generalisation, adversarial input). Arranging them as three
+facts that stack — it *can* fit anything, it *will* memorise noise, the function it finds is
+fragile — and then resolving them with the manifold, does not exist in the notes at all.
+
+**Other claims added:**
+
+1. **"Perfect training accuracy tells you nothing"** — that memorising noise and learning real
+   structure produce an *identical* training loss curve, so the thing you optimise cannot
+   distinguish them. Mine.
+2. **Adversarial examples as a consequence rather than a bug** — a flexible function fitted to a
+   finite sample is unconstrained everywhere the data isn't, and "everywhere else" begins right
+   next to every data point. Mine.
+3. **The manifold explaining adversarial examples** — the nudge pushes the input off the
+   manifold into territory nothing ever constrained. The note has manifold and adversarial
+   examples as separate sections and never connects them. This is the load-bearing join.
+4. **The closing argument that the vocabulary is wrong** — "learns", "understands", "recognises"
+   — and that the flat description predicts the failure modes better. Mine.
+5. **The panda/gibbon illustration** — canonical from the literature, not from the notes.
+
+**Papers identified by me, confirm they're the intended ones:** the note says "Rethinking
+Generalisation paper", which I matched to Zhang, Bengio, Hardt, Recht and Vinyals,
+*Understanding deep learning requires rethinking generalization*. The adversarial section I
+matched to Goodfellow, Shlens and Szegedy. Note that the note's formula is plain gradient
+ascent on the input, not quite the sign-based FGSM from that paper.
+
+**Dropped from the note:** the PRNG / sampling-from-a-normal section and the reparametrisation
+trick. Both belong with a VAE post, not this argument.
+
 ### 1. Post pipeline — ranked (mining pass done 2026-08-01)
 
 All 50 notes were read and scored on three tests: was it worked out rather than copied, did the
