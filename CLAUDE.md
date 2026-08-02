@@ -424,6 +424,36 @@ NodePort range.
 node, how secondary IPs become pod IPs) and GWLB/GENEVE. Both are real content that could support
 a follow-up on how pods actually get their addresses.
 
+### 0f. Yashasvee to verify the process-memory post
+
+Written 2026-08-02, merging `os/Process` + `mmap vs sbrk` + `Thrashing` + `os/Cache` +
+`reads/Meltdown`. Four original diagrams. Those four source notes stay `publish: false` — this
+supersedes them.
+
+**Claims added beyond the notes:**
+
+1. **The whole Meltdown mechanism** — speculative execution running ahead of the permission
+   check, and cache state measured by timing as the side channel. The notes say only that the
+   kernel mapping "led to Meltdown" and give the two-page-table fix. The *how* is entirely mine
+   and is the biggest single addition in the post.
+2. **That KPTI puts back exactly the cost the original design existed to avoid.** Mine, and the
+   closing argument.
+3. **"An address space is a promise, not an allocation."** Notes say memory is virtual "until
+   memory is actually accessed"; the framing is mine.
+4. **Why a program's memory usage doesn't drop after freeing** — the observable symptom of
+   `sbrk`'s middle-of-heap limitation. Notes state the limitation, not the consequence.
+5. **Why the MMU has to be hardware** ("like putting an interpreter on the memory bus"). Mine.
+6. **Page replacement and CPU caching presented as the same problem at different distances.**
+   Both topics are in the notes; joining them is mine.
+7. **The guard-page rationale** — fault rather than silently corrupt a neighbouring stack. Notes
+   say only "Guard pages separate thread stacks".
+8. **Characterising the three cache organisations** (direct mapped collides, fully associative is
+   expensive to search, set associative splits it). Notes list the three names only.
+
+**Dropped from the notes:** the "stack size is usually fixed at 8MB" figure, and the register
+holding the page table base is described but not named `PTBR`. Both are nice concrete details if
+you want them back.
+
 ### 1. Post pipeline — ranked (mining pass done 2026-08-01)
 
 All 50 notes were read and scored on three tests: was it worked out rather than copied, did the
@@ -447,22 +477,53 @@ underserved format. Most writing in this space explains components; almost none 
    invariance" — a distinction most tutorials blur — plus the What-vs-Where tradeoff.
 3. `ai/1-Neural nets` (412w, 26 bullets). Angle: perceptron through to backpropagation.
 
-**Not yet written, ranked.**
+**Not yet written — second mining pass, 2026-08-02.**
 
-1. `platform-eng/cloud/Networking` (779w) — **the best note in the vault.** A hand-traced path
-   for one request from a pod in VPC A to a pod in VPC B, every hop annotated. Nobody writes
-   that down without having debugged it. Angle: everything that has to be right for two pods in
-   different VPCs to talk. **Blocked on 2 Excalidraw exports.**
-2. `os/Process` (296w) — the kernel is mapped into every process's address space, which is why
-   Meltdown happened, which is why KPTI has two page tables. Absorbs `reads/Meltdown` (25w,
-   unpublishable alone). **Blocked on 1 Excalidraw export.**
-3. `sys-design/dist-sys/Go Threads and Raft` + `Golang` (600w combined) — four concurrency
-   patterns; locks enforcing invariants across a group of variables; channels as a rendezvous
-   rather than a queue. Angle: written by someone arriving from a class-based language.
-4. `sys-design/Database` — geospatial indexing, quad trees and Hilbert curves. **Blocked on 3
-   Excalidraw exports.**
-5. `ai/4- Deep Generative models` — why VAEs generate and autoencoders don't. Note contains a
-   literal `???` under reconstruction loss; close that before publishing.
+**Excalidraw is no longer a blocker for anything.** Redrawing from the notes' text is what the
+written posts already do, so the six drawings never needed exporting. That freed `os/Process`,
+`sys-design/Database` and the networking post at once.
+
+Merging is now the main lever. The strongest remaining candidates are all merges.
+
+*Tier 1*
+
+1. **`os/Process` + `mmap vs sbrk` + `Thrashing` + `os/Cache` + `reads/Meltdown`** (542w).
+   A trace: what the process sees → pages, frames and the MMU → growing the heap (`sbrk` can
+   only move the top, which is why `malloc` reaches for `mmap`) → thrashing and the working set
+   → and the layout decision that became Meltdown. `reads/Meltdown` is 11 words and
+   unpublishable alone; here it is the ending.
+2. **`ai/Miscell`** (229w). The only note in the vault that makes an *argument* rather than
+   describing something. Universal Approximation Theorem says a network *can* fit anything;
+   Rethinking Generalisation shows it *will*, hitting 100% training accuracy on randomised
+   labels; adversarial examples show the fitted function isn't the one you wanted. Three facts
+   that stack into something uncomfortable.
+3. **`sys-design/Database` + `DataStores` + `Caching`** (372w). Angle: every storage decision is
+   a bet about what you'll be asked for. Indexes, bloom filters, LSM trees, sharding, eviction
+   policies and CDNs are one trade in different clothes — spend on writes to save reads, or
+   accept a probabilistic answer to avoid an I/O.
+
+*Tier 2*
+
+4. **`Golang` + `Go Threads and Raft`** (569w) — four concurrency patterns, locks enforcing
+   invariants across a group of variables, channels as a rendezvous rather than a queue.
+5. **`ai/5- Reinforcement Learning`** (332w) — angle is the note's own line: *"in normal NN or ML
+   target is ground truth but not here!"* You regress toward your own estimate, which is what
+   makes RL structurally unlike everything else.
+6. **`os/os vs kernel`** (155w) — "Linux is not an operating system." Distros share a kernel and
+   differ only in userspace; init is PID 1; and the boundary is historically contingent, per the
+   note's own browser example.
+
+*Tier 3*
+
+7. `platform-eng/add-ons/ESO` (138w) — how a secret gets from AWS into a pod. A trace, but short.
+8. `GFS` + `Map Reduce` (158w) — the *limitations* are the interesting part (single-master memory
+   ceiling, append ordering, superseded by Colossus). Thin enough to risk invention.
+
+**Newly ruled out:** `sys-design/Raft` — it fails the "existing explanations annoyed you" test,
+because the existing explanations of Raft are excellent.
+
+**Worth knowing:** after Tier 1 and 2 the vault is close to exhausted — roughly six or seven more
+posts. Beyond that, new posts need new learning rather than new mining.
 
 **Actively avoid:** `ai/2-RNNs, Transformers, Attention`. Thin on the transformer half, and Jay
 Alammar owns that ground completely.
