@@ -315,21 +315,54 @@ congestion backoff do).
 channel, taken from the `os/Welcome` note's own statement that the vault is "based on Core
 Dumped youtube channel and general googling". Confirm that's right for this note specifically.
 
-### 1. Mine the notes for post ideas
+### 1. Post pipeline — ranked (mining pass done 2026-08-01)
 
-Read through the vaults and pick out which notes have a real post inside them, rather than
-publishing what happens to be longest. Good signals: a note where you worked something out
-rather than copied it down; a topic where the existing internet explanations annoyed you; a
-diagram you drew because nothing existing was clear enough.
+All 50 notes were read and scored on three tests: was it worked out rather than copied, did the
+existing explanations annoy him, was a diagram drawn because nothing clear existed.
 
-Worth doing as an explicit pass with an output — a ranked list of candidate posts with a
-one-line angle for each — rather than deciding note-by-note at publish time. The strongest
-current candidates by substance are `platform-eng/cloud/Networking`, `os/Network Programming`,
-`sys-design/dist-sys/Primary and Backup Replication`, and the `ai/` series, but substance and
-"has an angle" are different tests.
+**The through-line worth knowing:** the five strongest notes are all *traces* — a packet through
+a network, a request through k8s, a call sequence through the kernel, a replica through failure
+modes. That is what this vault produces when something was genuinely worked out, and it is an
+underserved format. Most writing in this space explains components; almost none walks a path.
 
-The `k8s-core/` notes are individually thin but collectively cover a whole architecture —
-they may work better merged into one substantial piece than as ten stubs.
+**Written properly.** `platform-eng/Nobody in Kubernetes talks to anybody else` (merges all ten
+`k8s-core` notes). `os/Network Programming`.
+
+**Published but still raw bullet notes — highest-value work available.**
+
+1. `sys-design/dist-sys/Primary and Backup Replication` (483w, 23 bullets, no diagrams).
+   Angle: deterministic replay is elegant and reality attacks it from five directions —
+   interrupts, non-deterministic instructions, multicore, the Output Rule, split brain. The
+   multicore answer, "only allow unicore!", is the hook.
+2. `ai/3- CNNs` (431w, 19 bullets). Angle: "Conv layer provides equivariance. Pooling provides
+   invariance" — a distinction most tutorials blur — plus the What-vs-Where tradeoff.
+3. `ai/1-Neural nets` (412w, 26 bullets). Angle: perceptron through to backpropagation.
+
+**Not yet written, ranked.**
+
+1. `platform-eng/cloud/Networking` (779w) — **the best note in the vault.** A hand-traced path
+   for one request from a pod in VPC A to a pod in VPC B, every hop annotated. Nobody writes
+   that down without having debugged it. Angle: everything that has to be right for two pods in
+   different VPCs to talk. **Blocked on 2 Excalidraw exports.**
+2. `os/Process` (296w) — the kernel is mapped into every process's address space, which is why
+   Meltdown happened, which is why KPTI has two page tables. Absorbs `reads/Meltdown` (25w,
+   unpublishable alone). **Blocked on 1 Excalidraw export.**
+3. `sys-design/dist-sys/Go Threads and Raft` + `Golang` (600w combined) — four concurrency
+   patterns; locks enforcing invariants across a group of variables; channels as a rendezvous
+   rather than a queue. Angle: written by someone arriving from a class-based language.
+4. `sys-design/Database` — geospatial indexing, quad trees and Hilbert curves. **Blocked on 3
+   Excalidraw exports.**
+5. `ai/4- Deep Generative models` — why VAEs generate and autoencoders don't. Note contains a
+   literal `???` under reconstruction loss; close that before publishing.
+
+**Actively avoid:** `ai/2-RNNs, Transformers, Attention`. Thin on the transformer half, and Jay
+Alammar owns that ground completely.
+
+**Never posts:** index/`Welcome` notes (`Gaurav Sen distsys`, `Welcome to distsys`, `control
+plane`, `data plane`, `overall architecture`, both `Welcome`s, `Revision`); stubs under ~80
+words (`ArgoCD` 14w, `CSI drivers` 20w, `Storage` 23w, `Cluster Autoscaler` 28w, `Load
+Balancing` 38w, `Compute` 47w, `API design` 80w); and `Data Consistency` and `Event Driven
+Systems`, which both say "needs more notes" in the body.
 
 ### 2. Blog research — findings (2026-08-01)
 
