@@ -390,6 +390,40 @@ prose; "Empirical Loss" is no longer named as a separate concept.
 **Note:** `ai/Miscell` has related material — the Universal Approximation Theorem, and the
 Rethinking Generalisation paper result — that would strengthen the neural nets post if merged.
 
+### 0e. Yashasvee to verify the VPC networking post
+
+Written 2026-08-02 from `platform-eng/cloud/Networking`, the strongest note in the vault. Four
+original diagrams — **the two Excalidraw drawings were never needed.** Redrawing from the note's
+text made the export blocker moot, which also applies to `os/Process` and `sys-design/Database`.
+
+**Claims added beyond the notes:**
+
+1. **The framing that cloud networking fails by dropping rather than refusing**, and that this is
+   what makes it hard to debug. Entirely mine; it's the opening and the thesis.
+2. **"A subnet is not public by nature — it's public because its route table has a path to the
+   gateway."** The note states both facts separately and never joins them.
+3. **The ephemeral-port return-traffic trap spelled out** — that a NACL allowing outbound 443
+   silently drops the reply because replies arrive on 1024–65535. The note records stateful vs
+   stateless and the ephemeral range in the trace, but never explains the consequence.
+4. **"Every NACL rule is really two rules."** Mine.
+5. **Referencing a security group instead of an IP survives instance replacement.** The note says
+   a rule "can have IP, cidr, another sg" without the reasoning.
+6. **Why ALB vs NLB maps to those workloads** — that an L7 proxy has nothing to contribute to
+   Kafka or gRPC and only adds latency. Note lists the use cases without the why.
+7. **The closing argument** — that each checkpoint exists because a different team can configure
+   it independently, so there are four places to make one mistake. Mine.
+8. **"It's almost always the NACL."** An opinion, and the last line of the post. Cut it if it
+   doesn't match his experience.
+
+**Faithfully carried over:** the full cross-VPC trace, which is the reason this note was ranked
+first — DNS resolving without leaving the VPC, both NACLs, both route tables, the transit
+gateway's separate table, NLB target modes (NodePort vs direct pod IP), and the 30000–32767
+NodePort range.
+
+**Not used from the note:** ENI details (primary and secondary IPv4 addresses, multiple ENIs per
+node, how secondary IPs become pod IPs) and GWLB/GENEVE. Both are real content that could support
+a follow-up on how pods actually get their addresses.
+
 ### 1. Post pipeline — ranked (mining pass done 2026-08-01)
 
 All 50 notes were read and scored on three tests: was it worked out rather than copied, did the
