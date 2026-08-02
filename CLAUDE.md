@@ -346,6 +346,50 @@ detail matters.
 **Attribution:** confirmed by Yashasvee as MIT 6.824 lecture material. The lecture image was
 replaced with original diagrams; the course and the VMware FT paper are both cited.
 
+### 0d. Yashasvee to verify the two ML posts
+
+Both rewritten 2026-08-02 from bullets into prose, with four original diagrams each replacing
+the MIT 6.S191 slides. Both **retitled** — the slugs stayed (`/posts/ai/1-neural-nets/`,
+`/posts/ai/3-cnns/`) so existing links keep working, but the URLs no longer match the titles.
+Worth deciding whether to set a `slug:` in frontmatter and accept the break.
+
+**⚠ One thing needing an explicit decision.** The CNN note contains `How deconv actually works
+???` and `how uppooling actually works ???`. Rather than invent an explanation, the post says
+in Yashasvee's voice: *"I'm going to be honest and say I don't understand the mechanics of
+either well enough to explain them properly yet, so I'll leave them named rather than
+half-described, and come back to them."* That is the honest option and reads well, but it is a
+public admission written on his behalf — confirm he's happy with it before it stays.
+
+**Neural networks — claims added beyond the notes:**
+
+1. **Why the non-linearity matters** — without it, stacked layers collapse into a single matrix.
+   Not in the notes at all.
+2. **How to read binary cross-entropy** — only one term survives per example; confident mistakes
+   are punished far harder. Notes give the formula only.
+3. **How to read MSE** — off by 10 is a hundred times worse than off by 1, not ten times. Mine.
+4. **Learning rate failure modes** — crawling vs overshooting and oscillating. Notes say only
+   that η "determines the size of the step".
+5. **Mini-batch elevated to the central argument** — that it won on hardware, not mathematics.
+   The fact ("allow use of gpus to parallelize within batch computation") is in the notes; making
+   it the spine of the post is mine.
+6. **Rationale for dropout and early stopping.** Notes describe the mechanisms, not the reasons.
+
+**Dropped from the notes:** the numbered GD / SGD / mini-batch algorithm listings are folded into
+prose; "Empirical Loss" is no longer named as a separate concept.
+
+**CNNs — claims added beyond the notes:**
+
+1. **The parameter-count arithmetic** — 256×256×3 ≈ 196k inputs, ~196M weights for one
+   1,000-unit dense layer. My calculation; notes say only "network size increases".
+2. **"Early layers see edges because an edge is all you can see in a 3×3 window."** Mine.
+3. **The classical-CV comparison** (hand-tuned edge detectors). Notes say features "need to be
+   human defined" without the example.
+4. **Connecting detection and segmentation to the need to undo downsampling** — the notes list
+   them as use cases and mention transposed convolution separately, never joining the two.
+
+**Note:** `ai/Miscell` has related material — the Universal Approximation Theorem, and the
+Rethinking Generalisation paper result — that would strengthen the neural nets post if merged.
+
 ### 1. Post pipeline — ranked (mining pass done 2026-08-01)
 
 All 50 notes were read and scored on three tests: was it worked out rather than copied, did the
