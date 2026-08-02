@@ -53,6 +53,13 @@ const fmt = (d: Date) =>
               <div class="post-entry">
                 <a href={`/posts/${post.id}/`}>{post.data.title}</a>
                 {post.data.description && <p>{post.data.description}</p>}
+                {post.data.tags.length > 0 && (
+                  <p class="entry-tags">
+                    {post.data.tags.map((tag) => (
+                      <a href={`/tags/${tag}/`}>#{tag}</a>
+                    ))}
+                  </p>
+                )}
               </div>
             </li>
           ))}

@@ -534,6 +534,25 @@ a {
   opacity: 0.7;
 }
 
+/* In listings, tags are plain text rather than chips. A row of pills under
+   every entry turns a clean list into a wall of buttons. */
+.entry-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin: 0.4rem 0 0;
+  font-size: 0.78rem;
+}
+
+.entry-tags a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.entry-tags a:hover {
+  color: var(--accent);
+}
+
 .tags-heading {
   margin-top: 3rem;
 }
